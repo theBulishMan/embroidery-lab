@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="520" height="440" viewBox="0 0 520 440">
+<defs>
+ <pattern id="weave" width="7" height="7" patternUnits="userSpaceOnUse"><path d="M0 1h7M1 0v7" fill="none" stroke="#cabfa6" stroke-opacity=".22" stroke-width=".6"/></pattern>
+ <pattern id="pink-thread" width="6" height="6" patternUnits="userSpaceOnUse" patternTransform="rotate(-28)"><rect width="6" height="6" fill="#eab6a4"/><path d="M0 1h6" stroke="#f7d2be" stroke-width="1.5"/><path d="M0 4h6" stroke="#cf9687" stroke-width=".7"/></pattern>
+ <pattern id="leaf-thread" width="5" height="5" patternUnits="userSpaceOnUse" patternTransform="rotate(30)"><rect width="5" height="5" fill="#566a46"/><path d="M0 1h5" stroke="#81906a" stroke-width="1"/></pattern>
+ <pattern id="gold-thread" width="4" height="4" patternUnits="userSpaceOnUse" patternTransform="rotate(10)"><rect width="4" height="4" fill="#d7a84b"/><path d="M0 1h4" stroke="#f3d077" stroke-width="1.2"/></pattern>
+ <filter id="shadow" x="-30%" y="-30%" width="160%" height="170%"><feDropShadow dx="2" dy="12" stdDeviation="13" flood-color="#5c4b2d" flood-opacity=".12"/></filter>
+ <path id="petal" d="M260 205C223 185 222 132 242 121C269 103 292 142 274 179Z"/>
+</defs>
+<path d="M39 335c-28-99 69-124 41-199C66 95 38 109 48 139s88 15 101-25M418 336c42-11 78 5 68 39s-59 20-55-5" stroke="#ad8263" stroke-width="1.6" fill="none" stroke-dasharray="5 6" opacity=".6"/>
+<g filter="url(#shadow)"><circle cx="263" cy="227" r="167" fill="#c99d6b"/><circle cx="263" cy="227" r="159" fill="#f8f2e4"/><circle cx="263" cy="227" r="158" fill="url(#weave)"/><circle cx="263" cy="227" r="163" stroke="#e4c49c" fill="none" stroke-width="3"/><path d="M238 64V46h47v18" fill="#b79368" stroke="#9e784d" stroke-width="2"/><rect x="232" y="40" width="60" height="8" rx="3" fill="#68715a"/><path d="M245 37v14M280 37v14" stroke="#b7bea4" stroke-width="3"/></g>
+<path d="M266 220c-3 49-11 83-13 122" fill="none" stroke="#536746" stroke-width="6" stroke-linecap="round"/>
+<path d="M257 289c-3-34-53-51-62-32 9 24 39 40 62 32Zm2 23c6-31 41-47 57-38-4 23-31 39-57 38Z" fill="url(#leaf-thread)" stroke="#526644" stroke-width="2"/>
+<g fill="url(#pink-thread)" stroke="#cc9585" stroke-width="1.2"><use href="#petal"/><use href="#petal" transform="rotate(60 260 205)"/><use href="#petal" transform="rotate(120 260 205)"/><use href="#petal" transform="rotate(180 260 205)"/><use href="#petal" transform="rotate(240 260 205)"/><use href="#petal" transform="rotate(300 260 205)"/></g>
+<circle cx="260" cy="205" r="24" fill="url(#gold-thread)" stroke="#b78c3c" stroke-width="2"/><g fill="#b58a39"><circle cx="251" cy="200" r="1.7"/><circle cx="267" cy="194" r="1.6"/><circle cx="271" cy="209" r="1.8"/><circle cx="256" cy="215" r="1.5"/><circle cx="260" cy="204" r="1.4"/></g>
+<g transform="translate(359 282) rotate(19)"><rect x="-8" y="-23" width="76" height="53" rx="6" fill="#fffdf7" stroke="#ded7c7"/><path d="M5-13h47" stroke="#bab4a6" stroke-dasharray="2 3"/><text x="5" y="8" fill="#405340" font-family="Georgia,serif" font-size="15">made by you</text></g>
+<g transform="translate(397 91) rotate(27)"><path d="M0 0v87c5-20 5-67 0-87Z" fill="#8c9388"/><path d="M1 8v13" stroke="#f9f7ec" stroke-width="1"/><path d="M1 13c36-30 58 11 33 29" stroke="#cf9988" fill="none" stroke-width="2"/></g>
+</svg>

@@ -1,0 +1,213 @@
+<div id="rabbit-stitch-test">
+  <style>
+    #rabbit-stitch-test { display: grid; gap: calc(var(--font-size-base) * .8); }
+    #rabbit-stitch-test .rabbit-stage { width: 100%; max-width: 420px; margin-inline: auto; }
+    #rabbit-stitch-test canvas { display: block; width: 100%; height: auto; }
+    #rabbit-stitch-test .rabbit-photo { width: 100%; height: auto; display: block; }
+    #rabbit-stitch-test [hidden] { display: none !important; }
+    #rabbit-stitch-test .rabbit-swatch { display: inline-block; width: .8em; height: .8em; margin-inline-end: .4em; vertical-align: baseline; }
+    #rabbit-stitch-test .rabbit-range { display: grid; gap: calc(var(--font-size-base) * .25); }
+    #rabbit-stitch-test .rabbit-thread { display: flex; align-items: center; gap: calc(var(--font-size-base) * .5); }
+  </style>
+  <div class="viz-row">
+    <span>兔子 · 圆润平面稿分层</span>
+    <span class="text-small text-muted" data-summary></span>
+  </div>
+  <div class="viz-controls"><label class="form-label">绣花线粗细<select class="form-select" data-thread-spec aria-label="绣花线粗细"><option value="105D">105D</option><option value="75D">75D</option></select></label><span data-size class="tabular-nums"></span></div>
+  <div class="viz-row" role="group" aria-label="查看阶段">
+    <button type="button" class="btn" data-mode="original" aria-pressed="false">原图</button>
+    <button type="button" class="btn" data-mode="layers" aria-pressed="true">分色分层</button>
+    <button type="button" class="btn" data-mode="simulation" aria-pressed="false">逐针模拟</button>
+    <button type="button" class="btn" data-mode="result" aria-pressed="false">针迹效果</button>
+  </div>
+  <div class="rabbit-stage">
+    <img class="rabbit-photo" data-original alt="用户提供的黄色兔子刺绣贴原始照片" hidden>
+    <canvas data-canvas width="840" height="1005" role="img" aria-label="从导出的机器文件重新读取的兔子针迹，可按色序和逐针播放"></canvas>
+  </div>
+  <div class="viz-controls" data-layer-controls hidden>
+    <label class="form-label">查看色块
+      <select class="form-select" data-layer-select aria-label="查看色块">
+        <option value="all">全部色块</option>
+        <option value="0">浅黄 · 底面</option>
+        <option value="1">粉色 · 耳内、腮红、舌头</option>
+        <option value="2">黑色 · 轮廓与五官</option>
+        <option value="3">白色 · 眼睛高光</option>
+      </select>
+    </label>
+  </div>
+  <div class="rabbit-range" data-play-controls>
+    <div class="viz-row">
+      <button type="button" class="btn btn-primary" data-play>从头播放</button>
+      <button type="button" class="btn" data-step>前进一针</button>
+      <label class="form-label">演示速度
+        <select class="form-select" data-speed aria-label="演示速度">
+          <option value="100">慢速</option>
+          <option value="500" selected>正常</option>
+          <option value="1600">快速</option>
+        </select>
+      </label>
+    </div>
+    <label class="form-label rabbit-range">
+      <span data-progress-label class="tabular-nums"></span>
+      <input class="form-range" data-progress type="range" min="0" step="1" aria-label="刺绣进度">
+    </label>
+    <label class="form-check"><input class="form-check-input" type="checkbox" data-jumps><span class="form-check-label">显示跳针</span></label>
+  </div>
+  <div class="viz-row" data-thread-buttons role="group" aria-label="按绣线顺序查看"></div>
+  <div class="text-small" data-status aria-live="polite"></div>
+  <div class="text-small text-muted">试排预设，密度可在网页中微调 · 初始宽度 60 mm · 未试绣</div>
+  <script type="application/json" id="rabbit-test-data">__RABBIT_DATA__</script>
+  <script>
+  (() => {
+    const root = document.getElementById('rabbit-stitch-test');
+    const bundle = JSON.parse(document.getElementById('rabbit-test-data').textContent);
+    let profile = '105D', data = bundle.profiles[profile];
+    const find = s => root.querySelector(s);
+    const canvas = find('[data-canvas]'), ctx = canvas.getContext('2d');
+    const photo = find('[data-original]'), range = find('[data-progress]'), play = find('[data-play]');
+    let commands = data.commands, colors = data.meta.colors;
+    let mode = 'layers', index = commands.length, playing = false, frame = 0, previousTime = 0, debt = 0;
+    let layer = 'all', showJumps = false;
+    canvas.width = 840; canvas.height = Math.round(840 * data.height / data.width);
+    let scale = canvas.width / data.width;
+    photo.src = bundle.originalDataUri;
+    range.max = commands.length; range.value = index;
+    function summary(){
+      find('[data-summary]').textContent = `4 色 · ${data.meta.separated_objects.length} 色块 · 预计 ${data.stats.stitch_count.toLocaleString()} 针`;
+      find('[data-size]').textContent = `${data.meta.design_width_mm} × ${data.meta.design_height_mm.toFixed(1)} mm`;
+      root.querySelectorAll('[data-color-count]').forEach(el=>{el.textContent=` · ${data.stats.stitches_by_color[Number(el.dataset.colorCount)].toLocaleString()} 针`});
+    }
+    const status = text => { if (find('[data-status]').textContent !== text) find('[data-status]').textContent = text; };
+    const shade = (rgb, mix) => rgb.map(v => Math.round(mix < 0 ? v * (1 + mix) : v + (255 - v) * mix));
+    const css = rgb => `rgb(${rgb.join(',')})`;
+    const bg = () => {
+      // The fixed colors here represent the physical fabric and thread sample.
+      ctx.fillStyle = '#f1ede4'; ctx.fillRect(0, 0, canvas.width, canvas.height);
+      ctx.lineWidth = .65; ctx.strokeStyle = '#e7e3da'; ctx.beginPath();
+      for (let x = 0; x < canvas.width; x += 5) { ctx.moveTo(x, 0); ctx.lineTo(x, canvas.height); }
+      for (let y = 0; y < canvas.height; y += 5) { ctx.moveTo(0, y); ctx.lineTo(canvas.width, y); }
+      ctx.stroke();
+    };
+    const segment = (a, b, color, width, offset = 0) => {
+      ctx.strokeStyle = color; ctx.lineWidth = width * scale; ctx.lineCap = 'round';
+      ctx.beginPath(); ctx.moveTo((a[0] + offset) * scale, (a[1] + offset) * scale);
+      ctx.lineTo((b[0] + offset) * scale, (b[1] + offset) * scale); ctx.stroke();
+    };
+    function dimensions(){
+      const w=data.meta.design_width_mm,h=data.meta.design_height_mm;
+      const x0=5*scale,y0=5*scale,x1=(5+w)*scale,y1=(5+h)*scale;
+      ctx.save();ctx.strokeStyle='#626b60';ctx.fillStyle='#343d31';ctx.lineWidth=1.2;ctx.font='22px system-ui';ctx.textAlign='center';ctx.textBaseline='middle';
+      ctx.beginPath();ctx.moveTo(x0,y1+8);ctx.lineTo(x0,y1+2.4*scale);ctx.moveTo(x1,y1+8);ctx.lineTo(x1,y1+2.4*scale);ctx.moveTo(x0,y1+2*scale);ctx.lineTo(x1,y1+2*scale);ctx.stroke();
+      const label=`${w} mm`,tw=ctx.measureText(label).width;ctx.fillStyle='#f1ede4';ctx.fillRect((x0+x1-tw)/2-7,y1+2*scale-15,tw+14,30);ctx.fillStyle='#343d31';ctx.fillText(label,(x0+x1)/2,y1+2*scale);
+      ctx.beginPath();ctx.moveTo(x1+8,y0);ctx.lineTo(x1+2.7*scale,y0);ctx.moveTo(x1+8,y1);ctx.lineTo(x1+2.7*scale,y1);ctx.moveTo(x1+2.3*scale,y0);ctx.lineTo(x1+2.3*scale,y1);ctx.stroke();ctx.translate(x1+2.3*scale,(y0+y1)/2);ctx.rotate(-Math.PI/2);
+      const hl=`${h.toFixed(1)} mm`,hw=ctx.measureText(hl).width;ctx.fillStyle='#f1ede4';ctx.fillRect(-hw/2-7,-15,hw+14,30);ctx.fillStyle='#343d31';ctx.fillText(hl,0,0);ctx.restore();
+    }
+    function paint() {
+      if (!playing) play.textContent = index >= commands.length ? '从头播放' : '播放';
+      photo.hidden = mode !== 'original'; canvas.hidden = mode === 'original';
+      find('[data-layer-controls]').hidden = mode !== 'layers';
+      find('[data-play-controls]').hidden = mode !== 'simulation';
+      if (mode === 'original') { status('原始照片，用于核对造型与表情'); return; }
+      bg();
+      if (mode === 'layers') {
+        ctx.save(); ctx.scale(scale, scale);
+        data.meta.separated_objects.forEach(o => {
+          const c = colors[o.color];
+          ctx.globalAlpha = layer === 'all' || Number(layer) === o.color ? 1 : .06;
+          ctx.fillStyle = c.hex; ctx.fill(new Path2D(o.path), 'evenodd');
+        });
+        ctx.restore();
+        dimensions();
+        status(layer === 'all' ? `${data.meta.separated_objects.length} 个色块，从你选定的平面稿提取` : `${colors[Number(layer)].name}：${data.meta.separated_objects.filter(o => o.color === Number(layer)).length} 个色块`);
+        return;
+      }
+      let last = null, needle = null, currentColor = 0;
+      const until = mode === 'result' ? commands.length : index;
+      for (let i = 0; i < until; i++) {
+        const p = commands[i];
+        if (p[2] === 0 && last) {
+          const col = colors[p[3]].thread.rgb;
+          if (mode === 'result') segment(last, p, css(shade(col, -.26)), data.meta.row_spacing_mm, .045);
+          segment(last, p, css(col), mode === 'result' ? data.meta.row_spacing_mm*1.02 : data.meta.row_spacing_mm*1.02);
+          if (mode === 'result') segment(last, p, css(shade(col, .22)), .075, -.035);
+          needle = p; currentColor = p[3];
+        } else if (p[2] === 1 && last && showJumps && mode === 'simulation') {
+          ctx.setLineDash([3, 3]); segment(last, p, '#d35b34', .12); ctx.setLineDash([]);
+        }
+        last = p;
+      }
+      dimensions();
+      if (mode === 'simulation' && needle && until < commands.length) {
+        ctx.beginPath(); ctx.arc(needle[0] * scale, needle[1] * scale, 5, 0, Math.PI * 2);
+        ctx.fillStyle = '#d65424'; ctx.fill(); ctx.strokeStyle = '#ffffff'; ctx.lineWidth = 1.5; ctx.stroke();
+      }
+      find('[data-progress-label]').textContent = `${index ? data.prefix[index - 1].toLocaleString() : 0} / ${data.stats.stitch_count.toLocaleString()} 针`;
+      range.value = index;
+      status(mode === 'result' ? '效果由机器文件的落针坐标绘制，实物仍需试绣' : `${colors[currentColor].name} · 示例线号 ${colors[currentColor].thread.code} · ${index >= commands.length ? '已播放完成' : '可逐针检查'}`);
+    }
+    function save() {
+      window.openai?.setWidgetState?.({modelContent:{sample:'rabbit-rounded-v4',mode,thread:profile,stitchCount:data.stats.stitch_count},privateContent:{version:4,mode,index,layer,profile}})?.catch?.(() => {});
+    }
+    function stop() {
+      playing = false; cancelAnimationFrame(frame); play.textContent = index >= commands.length ? '从头播放' : '播放';
+    }
+    function changeMode(value, persist = true) {
+      stop(); mode = value;
+      root.querySelectorAll('[data-mode]').forEach(b => b.setAttribute('aria-pressed', String(b.dataset.mode === mode)));
+      paint(); if (persist) save();
+    }
+    const tick = time => {
+      if (!playing) return;
+      if (previousTime) debt += (time - previousTime) / 1000 * Number(find('[data-speed]').value);
+      previousTime = time;
+      const amount = Math.floor(debt);
+      if (amount) { index = Math.min(commands.length, index + amount); debt -= amount; paint(); }
+      if (index >= commands.length) { stop(); save(); return; }
+      frame = requestAnimationFrame(tick);
+    };
+    root.querySelectorAll('[data-mode]').forEach(b => b.addEventListener('click', () => changeMode(b.dataset.mode)));
+    play.addEventListener('click', () => {
+      if (playing) { stop(); save(); return; }
+      if (index >= commands.length) index = 0;
+      playing = true; previousTime = 0; debt = 0; play.textContent = '暂停'; frame = requestAnimationFrame(tick);
+    });
+    range.addEventListener('input', () => { stop(); index = Number(range.value); paint(); });
+    range.addEventListener('change', save);
+    find('[data-step]').addEventListener('click', () => {
+      stop(); if (index >= commands.length) index = 0;
+      do { index++; } while (index < commands.length && commands[index - 1][2] !== 0);
+      paint(); save();
+    });
+    find('[data-layer-select]').addEventListener('change', e => { layer = e.target.value; paint(); save(); });
+    find('[data-jumps]').addEventListener('change', e => { showJumps = e.target.checked; paint(); });
+    function selectProfile(value){
+      stop();profile=value;data=bundle.profiles[profile];commands=data.commands;colors=data.meta.colors;index=commands.length;
+      canvas.height=Math.round(840*data.height/data.width);scale=canvas.width/data.width;range.max=commands.length;range.value=index;
+      find('[data-thread-spec]').value=profile;summary();paint();
+    }
+    find('[data-thread-spec]').addEventListener('change',e=>{selectProfile(e.target.value);save()});
+    colors.forEach((color, i) => {
+      const button = document.createElement('button'); button.type = 'button'; button.className = 'btn';
+      const swatch = document.createElement('span'); swatch.className = 'rabbit-swatch'; swatch.style.backgroundColor = color.thread.hex; swatch.setAttribute('aria-hidden', 'true');
+      button.append(swatch, document.createTextNode(`${i + 1}. ${color.name} ${color.thread.code}`));
+      const count=document.createElement('span');count.dataset.colorCount=String(i);button.appendChild(count);
+      button.addEventListener('click', () => {
+        if (mode === 'layers') { layer = String(i); find('[data-layer-select]').value = layer; paint(); save(); }
+        else { changeMode('simulation', false); index = commands.findIndex(p => p[3] > i); if (index < 0) index = commands.length; paint(); save(); }
+      });
+      find('[data-thread-buttons]').appendChild(button);
+    });
+    function restore(state) {
+      const stored = state?.privateContent;
+      if (!stored||stored.version!==4) return;
+      if (['75D','105D'].includes(stored.profile)) selectProfile(stored.profile);
+      if (Number.isFinite(stored.index)) index = Math.max(0, Math.min(commands.length, stored.index));
+      if (['all','0','1','2','3'].includes(stored.layer)) { layer = stored.layer; find('[data-layer-select]').value = layer; }
+      if (['original','layers','simulation','result'].includes(stored.mode)) changeMode(stored.mode, false);
+    }
+    restore(window.openai?.widgetState);
+    window.addEventListener('openai:set_globals', event => restore(event.detail?.globals?.widgetState));
+    summary();paint();
+  })();
+  </script>
+</div>

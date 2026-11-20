@@ -1,0 +1,34 @@
+[Unit]
+Description=Embroidery studio (bounded resource use)
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+User=embroidery
+Group=embroidery
+WorkingDirectory=/opt/embroidery/current
+EnvironmentFile=/opt/embroidery/shared/runtime.env
+ExecStart=/opt/embroidery/venv/bin/python /opt/embroidery/current/studio_server.py --port 8876
+Restart=on-failure
+RestartSec=10
+TimeoutStopSec=20
+KillMode=control-group
+CPUQuota=50%
+CPUQuotaPeriodSec=100ms
+CPUWeight=20
+MemoryHigh=384M
+MemoryMax=512M
+MemorySwapMax=1G
+TasksMax=64
+Nice=10
+OOMPolicy=stop
+UMask=0077
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectSystem=strict
+ProtectHome=true
+ReadWritePaths=/opt/embroidery/shared
+
+[Install]
+WantedBy=multi-user.target

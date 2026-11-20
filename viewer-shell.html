@@ -1,0 +1,31 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>兔子刺绣 · 单图验证</title>
+<style>
+:root { --font-size-base:15px; --foreground:#252823; --muted-foreground:#686e64; --background:#faf9f5; }
+* { box-sizing:border-box; }
+body { margin:0; background:var(--background); color:var(--foreground); font-family:system-ui,-apple-system,"PingFang SC",sans-serif; font-size:var(--font-size-base); line-height:1.5; }
+main { max-width:900px; margin:28px auto; padding:0 24px 32px; }
+header { display:flex; flex-wrap:wrap; justify-content:space-between; align-items:center; gap:12px; margin-bottom:24px; }
+header h1 { font-size:20px; font-weight:500; margin:0; }
+header a { color:inherit; }
+.viz-row,.viz-controls { display:flex; flex-wrap:wrap; gap:8px; align-items:center; }
+.btn { border:1px solid #d6d9cf; border-radius:8px; background:transparent; color:inherit; padding:9px 13px; font:inherit; cursor:pointer; }
+.btn[aria-pressed="true"],.btn-primary { background:#3f5141; border-color:#3f5141; color:#fff; }
+.form-label { display:flex; flex-wrap:wrap; gap:8px; align-items:center; }
+.form-select { font:inherit; padding:7px 10px; color:inherit; border:1px solid #d6d9cf; border-radius:6px; background:#fff; }
+.form-range { width:100%; accent-color:#3f5141; }
+.form-check { display:flex; align-items:center; gap:8px; }
+.form-check-input { accent-color:#3f5141; }
+.text-small { font-size:12px; }.text-muted { color:var(--muted-foreground); }.tabular-nums { font-variant-numeric:tabular-nums; }
+footer { margin-top:24px; border-top:1px solid #e1e2d9; padding-top:16px; display:flex; flex-wrap:wrap; gap:16px; font-size:13px; }
+footer a { color:#3f5141; }
+@media(max-width:480px) { main { padding-inline:12px; margin-top:16px; } .btn { min-height:44px; padding:8px 10px; } .form-select { font-size:16px; } }
+</style>
+</head><body><main>
+<header><h1>从照片到真实针迹</h1><a href="README.md">查看本次测试说明</a></header>
+__FRAGMENT__
+<footer><a href="rabbit-layers.svg" download>分层矢量图</a><a href="rabbit-embroidery.svg" download>可编辑刺绣工程</a><a href="machine/rabbit-60mm.dst" download>DST 试验文件</a><a href="machine/rabbit-60mm.pes" download>PES 试验文件</a><a href="thread-order.csv" download>配线单</a><a href="stitch-preview.png" download>针迹效果图</a></footer>
+</main></body></html>

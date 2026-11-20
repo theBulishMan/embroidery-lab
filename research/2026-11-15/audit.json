@@ -1,0 +1,740 @@
+{
+  "sample": "20 mm yellow patch",
+  "physical_sewout": false,
+  "plans": {
+    "v6": {
+      "plan_id": "p-5046c365ac7cd0",
+      "stats": {
+        "stitch_count": 1537,
+        "stitches_by_color": [
+          614,
+          141,
+          40,
+          742
+        ],
+        "unique_thread_colors": 4,
+        "color_changes": 3,
+        "trims_dst": 13,
+        "jump_commands_dst": 13,
+        "dimensions_mm": [
+          20.2,
+          19.4
+        ],
+        "max_stitch_mm": 4.02,
+        "sew_geometry_dst_pes_equal": true,
+        "physically_sewn": false,
+        "travel_mm": 38.63,
+        "travel_before_mm": 40.49,
+        "travel_saved_mm": 1.86,
+        "sewing_mm": 2296.29,
+        "color_blocks": 4,
+        "stitches_by_block": [
+          614,
+          141,
+          40,
+          742
+        ]
+      },
+      "objects": [
+        {
+          "id": "c1-region1",
+          "role": "榻榻米填针",
+          "needles": 614,
+          "zero_length_commands": 1,
+          "positive_stitches_below_0_3_mm": 77,
+          "positive_stitches_below_0_5_mm": 116,
+          "length_quantiles_mm": [
+            0.2,
+            1.972,
+            3.44
+          ]
+        },
+        {
+          "id": "c2-region2",
+          "role": "窄条缎面针",
+          "needles": 81,
+          "zero_length_commands": 1,
+          "positive_stitches_below_0_3_mm": 3,
+          "positive_stitches_below_0_5_mm": 12,
+          "length_quantiles_mm": [
+            0.3,
+            1.924,
+            3.9
+          ]
+        },
+        {
+          "id": "c2-region1",
+          "role": "窄条缎面针",
+          "needles": 60,
+          "zero_length_commands": 1,
+          "positive_stitches_below_0_3_mm": 3,
+          "positive_stitches_below_0_5_mm": 6,
+          "length_quantiles_mm": [
+            0.382,
+            1.697,
+            3.421
+          ]
+        },
+        {
+          "id": "c3-region1",
+          "role": "窄条缎面针",
+          "needles": 40,
+          "zero_length_commands": 1,
+          "positive_stitches_below_0_3_mm": 3,
+          "positive_stitches_below_0_5_mm": 5,
+          "length_quantiles_mm": [
+            0.2,
+            0.894,
+            1.414
+          ]
+        },
+        {
+          "id": "c4-region1",
+          "role": "窄条缎面针",
+          "needles": 28,
+          "zero_length_commands": 1,
+          "positive_stitches_below_0_3_mm": 6,
+          "positive_stitches_below_0_5_mm": 13,
+          "length_quantiles_mm": [
+            0.224,
+            0.51,
+            1.7
+          ]
+        },
+        {
+          "id": "c4-region2",
+          "role": "窄条缎面针",
+          "needles": 30,
+          "zero_length_commands": 1,
+          "positive_stitches_below_0_3_mm": 2,
+          "positive_stitches_below_0_5_mm": 9,
+          "length_quantiles_mm": [
+            0.24,
+            0.7,
+            1.484
+          ]
+        },
+        {
+          "id": "c4-region4",
+          "role": "窄条缎面针",
+          "needles": 43,
+          "zero_length_commands": 1,
+          "positive_stitches_below_0_3_mm": 6,
+          "positive_stitches_below_0_5_mm": 8,
+          "length_quantiles_mm": [
+            0.1,
+            1.102,
+            1.503
+          ]
+        },
+        {
+          "id": "c4-region3-join1",
+          "role": "窄条缎面针",
+          "needles": 100,
+          "zero_length_commands": 1,
+          "positive_stitches_below_0_3_mm": 6,
+          "positive_stitches_below_0_5_mm": 8,
+          "length_quantiles_mm": [
+            0.283,
+            1.204,
+            2.059
+          ]
+        },
+        {
+          "id": "c4-region3-join2",
+          "role": "窄条缎面针",
+          "needles": 57,
+          "zero_length_commands": 1,
+          "positive_stitches_below_0_3_mm": 1,
+          "positive_stitches_below_0_5_mm": 5,
+          "length_quantiles_mm": [
+            0.4,
+            1.077,
+            2.202
+          ]
+        },
+        {
+          "id": "c4-region3-edge1",
+          "role": "最后包边",
+          "needles": 185,
+          "zero_length_commands": 1,
+          "positive_stitches_below_0_3_mm": 2,
+          "positive_stitches_below_0_5_mm": 2,
+          "length_quantiles_mm": [
+            0.762,
+            1.14,
+            2.326
+          ]
+        },
+        {
+          "id": "c4-region3-edge2",
+          "role": "最后包边",
+          "needles": 77,
+          "zero_length_commands": 1,
+          "positive_stitches_below_0_3_mm": 2,
+          "positive_stitches_below_0_5_mm": 2,
+          "length_quantiles_mm": [
+            0.728,
+            1.079,
+            2.197
+          ]
+        },
+        {
+          "id": "c4-region3-edge3",
+          "role": "最后包边",
+          "needles": 133,
+          "zero_length_commands": 1,
+          "positive_stitches_below_0_3_mm": 0,
+          "positive_stitches_below_0_5_mm": 2,
+          "length_quantiles_mm": [
+            0.715,
+            1.136,
+            2.14
+          ]
+        },
+        {
+          "id": "c4-region3-edge4",
+          "role": "最后包边",
+          "needles": 89,
+          "zero_length_commands": 1,
+          "positive_stitches_below_0_3_mm": 0,
+          "positive_stitches_below_0_5_mm": 2,
+          "length_quantiles_mm": [
+            0.5,
+            1.202,
+            1.78
+          ]
+        }
+      ],
+      "short_stitch_note": "Includes underlay, edge turns and lock stitches; audit markers, not automatic defects."
+    },
+    "v7": {
+      "plan_id": "p-e51bf0ae4ad045",
+      "stats": {
+        "stitch_count": 1979,
+        "stitches_by_color": [
+          614,
+          193,
+          52,
+          1120
+        ],
+        "unique_thread_colors": 4,
+        "color_changes": 3,
+        "trims_dst": 13,
+        "jump_commands_dst": 13,
+        "dimensions_mm": [
+          20.2,
+          19.4
+        ],
+        "max_stitch_mm": 4.011,
+        "sew_geometry_dst_pes_equal": true,
+        "physically_sewn": false,
+        "travel_mm": 38.32,
+        "travel_before_mm": 40.19,
+        "travel_saved_mm": 1.87,
+        "sewing_mm": 2867.27,
+        "color_blocks": 4,
+        "stitches_by_block": [
+          614,
+          193,
+          52,
+          1120
+        ]
+      },
+      "objects": [
+        {
+          "id": "c1-region1",
+          "role": "榻榻米填针",
+          "needles": 614,
+          "zero_length_commands": 1,
+          "positive_stitches_below_0_3_mm": 76,
+          "positive_stitches_below_0_5_mm": 116,
+          "length_quantiles_mm": [
+            0.214,
+            1.972,
+            3.44
+          ]
+        },
+        {
+          "id": "c2-region2",
+          "role": "窄条缎面针",
+          "needles": 113,
+          "zero_length_commands": 1,
+          "positive_stitches_below_0_3_mm": 3,
+          "positive_stitches_below_0_5_mm": 11,
+          "length_quantiles_mm": [
+            0.309,
+            1.965,
+            3.901
+          ]
+        },
+        {
+          "id": "c2-region1",
+          "role": "窄条缎面针",
+          "needles": 80,
+          "zero_length_commands": 1,
+          "positive_stitches_below_0_3_mm": 2,
+          "positive_stitches_below_0_5_mm": 6,
+          "length_quantiles_mm": [
+            0.412,
+            2.088,
+            3.396
+          ]
+        },
+        {
+          "id": "c3-region1",
+          "role": "窄条缎面针",
+          "needles": 52,
+          "zero_length_commands": 1,
+          "positive_stitches_below_0_3_mm": 3,
+          "positive_stitches_below_0_5_mm": 5,
+          "length_quantiles_mm": [
+            0.312,
+            1.105,
+            1.414
+          ]
+        },
+        {
+          "id": "c4-region1",
+          "role": "窄条缎面针",
+          "needles": 36,
+          "zero_length_commands": 1,
+          "positive_stitches_below_0_3_mm": 4,
+          "positive_stitches_below_0_5_mm": 13,
+          "length_quantiles_mm": [
+            0.224,
+            1.005,
+            1.7
+          ]
+        },
+        {
+          "id": "c4-region2",
+          "role": "窄条缎面针",
+          "needles": 38,
+          "zero_length_commands": 1,
+          "positive_stitches_below_0_3_mm": 4,
+          "positive_stitches_below_0_5_mm": 8,
+          "length_quantiles_mm": [
+            0.188,
+            0.922,
+            1.503
+          ]
+        },
+        {
+          "id": "c4-region4",
+          "role": "窄条缎面针",
+          "needles": 55,
+          "zero_length_commands": 1,
+          "positive_stitches_below_0_3_mm": 2,
+          "positive_stitches_below_0_5_mm": 7,
+          "length_quantiles_mm": [
+            0.3,
+            1.102,
+            1.501
+          ]
+        },
+        {
+          "id": "c4-region3-join1",
+          "role": "窄条缎面针",
+          "needles": 143,
+          "zero_length_commands": 1,
+          "positive_stitches_below_0_3_mm": 4,
+          "positive_stitches_below_0_5_mm": 11,
+          "length_quantiles_mm": [
+            0.361,
+            1.21,
+            1.709
+          ]
+        },
+        {
+          "id": "c4-region3-join2",
+          "role": "窄条缎面针",
+          "needles": 84,
+          "zero_length_commands": 1,
+          "positive_stitches_below_0_3_mm": 1,
+          "positive_stitches_below_0_5_mm": 9,
+          "length_quantiles_mm": [
+            0.316,
+            1.118,
+            1.684
+          ]
+        },
+        {
+          "id": "c4-region3-edge1",
+          "role": "最后包边",
+          "needles": 297,
+          "zero_length_commands": 1,
+          "positive_stitches_below_0_3_mm": 2,
+          "positive_stitches_below_0_5_mm": 2,
+          "length_quantiles_mm": [
+            0.894,
+            1.118,
+            2.062
+          ]
+        },
+        {
+          "id": "c4-region3-edge2",
+          "role": "最后包边",
+          "needles": 119,
+          "zero_length_commands": 1,
+          "positive_stitches_below_0_3_mm": 2,
+          "positive_stitches_below_0_5_mm": 2,
+          "length_quantiles_mm": [
+            0.708,
+            1.07,
+            2.154
+          ]
+        },
+        {
+          "id": "c4-region3-edge3",
+          "role": "最后包边",
+          "needles": 211,
+          "zero_length_commands": 1,
+          "positive_stitches_below_0_3_mm": 2,
+          "positive_stitches_below_0_5_mm": 2,
+          "length_quantiles_mm": [
+            0.806,
+            1.118,
+            2.062
+          ]
+        },
+        {
+          "id": "c4-region3-edge4",
+          "role": "最后包边",
+          "needles": 137,
+          "zero_length_commands": 1,
+          "positive_stitches_below_0_3_mm": 2,
+          "positive_stitches_below_0_5_mm": 2,
+          "length_quantiles_mm": [
+            0.731,
+            1.212,
+            1.769
+          ]
+        }
+      ],
+      "short_stitch_note": "Includes underlay, edge turns and lock stitches; audit markers, not automatic defects."
+    }
+  },
+  "rail_audit": {
+    "objects": [
+      {
+        "id": "c2-region2",
+        "rail_nodes_per_side": 25,
+        "rail_steps": 24,
+        "collapsed_steps_under_0_01_mm": [
+          0,
+          0
+        ],
+        "strong_length_imbalance_steps_ratio_below_0_2": 0,
+        "direction_turns_over_15_deg_per_step": 0,
+        "max_direction_turn_deg": 0.21,
+        "proper_rung_crossings": 0,
+        "risk_stations": []
+      },
+      {
+        "id": "c2-region1",
+        "rail_nodes_per_side": 16,
+        "rail_steps": 15,
+        "collapsed_steps_under_0_01_mm": [
+          0,
+          0
+        ],
+        "strong_length_imbalance_steps_ratio_below_0_2": 0,
+        "direction_turns_over_15_deg_per_step": 0,
+        "max_direction_turn_deg": 0.17,
+        "proper_rung_crossings": 0,
+        "risk_stations": []
+      },
+      {
+        "id": "c3-region1",
+        "rail_nodes_per_side": 10,
+        "rail_steps": 9,
+        "collapsed_steps_under_0_01_mm": [
+          0,
+          0
+        ],
+        "strong_length_imbalance_steps_ratio_below_0_2": 0,
+        "direction_turns_over_15_deg_per_step": 0,
+        "max_direction_turn_deg": 0.07,
+        "proper_rung_crossings": 0,
+        "risk_stations": []
+      },
+      {
+        "id": "c4-region1",
+        "rail_nodes_per_side": 10,
+        "rail_steps": 9,
+        "collapsed_steps_under_0_01_mm": [
+          0,
+          0
+        ],
+        "strong_length_imbalance_steps_ratio_below_0_2": 0,
+        "direction_turns_over_15_deg_per_step": 0,
+        "max_direction_turn_deg": 0.14,
+        "proper_rung_crossings": 0,
+        "risk_stations": []
+      },
+      {
+        "id": "c4-region2",
+        "rail_nodes_per_side": 10,
+        "rail_steps": 9,
+        "collapsed_steps_under_0_01_mm": [
+          0,
+          0
+        ],
+        "strong_length_imbalance_steps_ratio_below_0_2": 0,
+        "direction_turns_over_15_deg_per_step": 0,
+        "max_direction_turn_deg": 0.1,
+        "proper_rung_crossings": 0,
+        "risk_stations": []
+      },
+      {
+        "id": "c4-region4",
+        "rail_nodes_per_side": 10,
+        "rail_steps": 9,
+        "collapsed_steps_under_0_01_mm": [
+          0,
+          0
+        ],
+        "strong_length_imbalance_steps_ratio_below_0_2": 0,
+        "direction_turns_over_15_deg_per_step": 0,
+        "max_direction_turn_deg": 0.07,
+        "proper_rung_crossings": 0,
+        "risk_stations": []
+      },
+      {
+        "id": "c4-region3-join1",
+        "rail_nodes_per_side": 32,
+        "rail_steps": 31,
+        "collapsed_steps_under_0_01_mm": [
+          0,
+          0
+        ],
+        "strong_length_imbalance_steps_ratio_below_0_2": 0,
+        "direction_turns_over_15_deg_per_step": 0,
+        "max_direction_turn_deg": 0.37,
+        "proper_rung_crossings": 0,
+        "risk_stations": []
+      },
+      {
+        "id": "c4-region3-join2",
+        "rail_nodes_per_side": 20,
+        "rail_steps": 19,
+        "collapsed_steps_under_0_01_mm": [
+          0,
+          0
+        ],
+        "strong_length_imbalance_steps_ratio_below_0_2": 0,
+        "direction_turns_over_15_deg_per_step": 0,
+        "max_direction_turn_deg": 0.3,
+        "proper_rung_crossings": 0,
+        "risk_stations": []
+      },
+      {
+        "id": "c4-region3-edge1",
+        "rail_nodes_per_side": 102,
+        "rail_steps": 101,
+        "collapsed_steps_under_0_01_mm": [
+          0,
+          0
+        ],
+        "strong_length_imbalance_steps_ratio_below_0_2": 1,
+        "direction_turns_over_15_deg_per_step": 1,
+        "max_direction_turn_deg": 18.55,
+        "proper_rung_crossings": 0,
+        "risk_stations": [
+          {
+            "index": 0,
+            "center": [
+              14.807,
+              7.637
+            ],
+            "turn_deg": 4.71,
+            "advance_ratio": 0.177
+          },
+          {
+            "index": 55,
+            "center": [
+              8.664,
+              18.364
+            ],
+            "turn_deg": 18.55,
+            "advance_ratio": 0.46
+          }
+        ]
+      },
+      {
+        "id": "c4-region3-edge2",
+        "rail_nodes_per_side": 42,
+        "rail_steps": 41,
+        "collapsed_steps_under_0_01_mm": [
+          0,
+          4
+        ],
+        "strong_length_imbalance_steps_ratio_below_0_2": 5,
+        "direction_turns_over_15_deg_per_step": 1,
+        "max_direction_turn_deg": 17.66,
+        "proper_rung_crossings": 0,
+        "risk_stations": [
+          {
+            "index": 0,
+            "center": [
+              11.329,
+              22.569
+            ],
+            "turn_deg": 4.56,
+            "advance_ratio": 0.0
+          },
+          {
+            "index": 1,
+            "center": [
+              11.39,
+              22.586
+            ],
+            "turn_deg": 10.99,
+            "advance_ratio": 0.096
+          },
+          {
+            "index": 37,
+            "center": [
+              19.308,
+              22.614
+            ],
+            "turn_deg": 17.66,
+            "advance_ratio": 0.0
+          },
+          {
+            "index": 38,
+            "center": [
+              19.413,
+              22.545
+            ],
+            "turn_deg": 14.61,
+            "advance_ratio": 0.0
+          },
+          {
+            "index": 40,
+            "center": [
+              19.646,
+              22.357
+            ],
+            "turn_deg": 4.04,
+            "advance_ratio": 0.0
+          }
+        ]
+      },
+      {
+        "id": "c4-region3-edge3",
+        "rail_nodes_per_side": 72,
+        "rail_steps": 71,
+        "collapsed_steps_under_0_01_mm": [
+          0,
+          2
+        ],
+        "strong_length_imbalance_steps_ratio_below_0_2": 4,
+        "direction_turns_over_15_deg_per_step": 1,
+        "max_direction_turn_deg": 17.3,
+        "proper_rung_crossings": 0,
+        "risk_stations": [
+          {
+            "index": 21,
+            "center": [
+              24.476,
+              20.539
+            ],
+            "turn_deg": 14.87,
+            "advance_ratio": 0.156
+          },
+          {
+            "index": 23,
+            "center": [
+              24.572,
+              20.168
+            ],
+            "turn_deg": 17.3,
+            "advance_ratio": 0.0
+          },
+          {
+            "index": 29,
+            "center": [
+              24.18,
+              19.15
+            ],
+            "turn_deg": 12.91,
+            "advance_ratio": 0.199
+          },
+          {
+            "index": 69,
+            "center": [
+              20.007,
+              10.354
+            ],
+            "turn_deg": 12.57,
+            "advance_ratio": 0.014
+          }
+        ]
+      },
+      {
+        "id": "c4-region3-edge4",
+        "rail_nodes_per_side": 48,
+        "rail_steps": 47,
+        "collapsed_steps_under_0_01_mm": [
+          0,
+          3
+        ],
+        "strong_length_imbalance_steps_ratio_below_0_2": 5,
+        "direction_turns_over_15_deg_per_step": 0,
+        "max_direction_turn_deg": 14.92,
+        "proper_rung_crossings": 0,
+        "risk_stations": [
+          {
+            "index": 0,
+            "center": [
+              20.042,
+              9.498
+            ],
+            "turn_deg": 5.46,
+            "advance_ratio": 0.047
+          },
+          {
+            "index": 9,
+            "center": [
+              21.092,
+              7.876
+            ],
+            "turn_deg": 14.92,
+            "advance_ratio": 0.0
+          },
+          {
+            "index": 13,
+            "center": [
+              21.121,
+              7.173
+            ],
+            "turn_deg": 13.82,
+            "advance_ratio": 0.066
+          },
+          {
+            "index": 34,
+            "center": [
+              17.357,
+              5.651
+            ],
+            "turn_deg": 11.26,
+            "advance_ratio": 0.18
+          },
+          {
+            "index": 46,
+            "center": [
+              15.404,
+              7.342
+            ],
+            "turn_deg": 5.26,
+            "advance_ratio": 0.0
+          }
+        ]
+      }
+    ],
+    "border_object_overlaps": [],
+    "method_note": "Geometry before pull compensation. The 0.2 advance ratio and 15 degree turn are diagnostic cutoffs selected for this review, not manufacturing standards. Unequal rails can be valid on curves; these stations require local spacing/shortening review."
+  }
+}

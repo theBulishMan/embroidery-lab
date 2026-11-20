@@ -1,0 +1,17 @@
+.venv/
+.env
+.env.*
+!.env.example
+__pycache__/
+*.log
+studio-data/
+.DS_Store
+*.py[cod]
+*.sqlite
+*.sqlite3
+*.sqlite-wal
+*.sqlite-shm
+/rabbit-test-20261114/
+/studio-proof-20261114/
+/research/2026-11-15/black-frame-rails.png
+/research/2026-11-15/black-frame-rails.svg

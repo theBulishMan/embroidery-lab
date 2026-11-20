@@ -1,0 +1,259 @@
+<!doctype html>
+<html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>平面稿刺绣工作台</title><link rel="icon" href="data:,"><link rel="stylesheet" href="/studio.css"></head>
+<body data-step="2" data-inspector-tool="basic"><main class="studio-shell">
+<header class="studio-header">
+  <div class="studio-brand"><i class="spool-mark" aria-hidden="true"></i><h1>刺绣工作台</h1></div>
+  <div class="header-actions"><label class="sr-only" for="projects">切换作品</label><select id="projects" aria-label="切换作品"></select><button id="new" class="button">＋ 新建图案</button>
+    <details id="account-menu" class="account-menu" hidden><summary>账户</summary><div><a id="account-link" href="/account" hidden>账号设置</a><a id="admin-link" href="/admin" hidden>邀请码管理</a><button id="logout" hidden>退出登录</button></div></details>
+  </div>
+</header>
+<nav class="wizard-steps" aria-label="制作步骤"><span class="nav-title">制作步骤</span><button data-step-target="1"><b>1</b><span>选图与尺寸</span></button><button data-step-target="2"><b>2</b><span>确认平面稿</span></button><button data-step-target="3"><b>3</b><span>线材与底料</span></button><button data-step-target="4"><b>4</b><span>分区与针法</span></button><button data-step-target="5"><b>5</b><span>模拟与导出</span></button></nav>
+<div class="step-heading"><div class="step-identity"><p id="step-kicker"></p><h2 id="step-title">确认平面稿</h2></div><p id="step-description"></p><span id="step-ready" hidden></span></div>
+<div class="job-state" id="job-state" role="status" aria-live="polite"><span id="job-message">准备就绪</span><a id="raw-result" hidden target="_blank" rel="noopener">查看已保存的 AI 原图</a><button id="resume-job" class="text-button" hidden>继续查看进度</button></div>
+<div id="mobile-panes" role="group" aria-label="工作区视图"><button type="button" data-pane="canvas" aria-pressed="true">图案画布</button><button type="button" data-pane="inspector" aria-pressed="false">编辑与设置</button></div>
+<div class="workspace">
+<section class="composer" aria-labelledby="create-title">
+  <div class="section-title"><h2 id="create-title">选择图案</h2><button class="text-button" id="close-composer" hidden>返回当前作品</button></div>
+  <div id="create-source-pane">
+  <div class="mode-choice source-choice" role="group" aria-label="图案来源"><button data-source="image" aria-pressed="true">我有图片</button><button data-source="text" aria-pressed="false">文字生成</button></div>
+<div class="source-grid">
+<div id="upload-area" class="upload-area"><label class="upload-label" for="upload"><i class="upload-icon" aria-hidden="true">↑</i><span id="upload-label">点击上传图片</span><span class="muted">PNG / JPG / WebP · 最大 8 MB</span></label><input class="sr-only" id="upload" type="file" accept="image/png,image/jpeg,image/webp" aria-label="上传参考图片"><img id="upload-preview" alt="即将修复的参考图片" hidden><button id="clear-upload" class="text-button" hidden>重新选图</button></div>
+<div class="source-options">
+<label class="field-label" for="create-prompt" id="create-prompt-label">希望怎样修复？</label><textarea id="create-prompt" rows="3" maxlength="3000" placeholder="保留主体和表情，修平毛边，线条圆润一点。"></textarea>
+    <button id="choose-size" class="button primary full">确定成品尺寸 →</button>
+</div></div></div>
+<div id="create-size-pane" hidden>
+<div class="size-layout">
+<div class="chosen-source"><img id="chosen-thumb" alt="已选原图" hidden><strong id="chosen-caption"></strong><button id="back-to-source" class="text-button">重新选择</button></div>
+<div class="size-options">
+<div class="create-size-fields">
+    <label for="create-width">成品宽度<div class="number-field"><input id="create-width" type="number" inputmode="decimal" min="20" max="160" step="0.1" required placeholder="20–160" aria-describedby="create-size-note"><span>mm</span></div></label>
+    <label for="create-thread">绣花线<select id="create-thread"><option value="75D">75D · 参考线宽 0.20 mm</option><option value="105D" selected>105D · 参考线宽 0.24 mm</option></select></label>
+  </div>
+  <p id="create-size-note" class="muted note" aria-live="polite">填写图案本身的宽度。出稿后按主体比例计算高度。</p>
+  <div id="image-treatment"><label class="field-label" for="image-treatment-select">怎么处理这张图片？</label><select id="image-treatment-select"><option value="auto" selected>按图片自动选择</option><option value="flat">直接分色（免费）</option><option value="upload">用 AI 修复平面稿</option></select><p class="muted note" id="treatment-note">适合照片、刺绣实拍或边缘不规整的图。保留主体，简化成圆润色块。</p></div>
+  <div id="flat-background-field" hidden><label for="flat-background">白色画布需要绣吗？</label><select id="flat-background"><option value="preserve">保留白色（保护白色主体）</option><option value="remove_white">移除边缘白色</option></select><p class="muted note">保留会把白底算入成品尺寸。选择移除时，从图边相连的白色会露出底布，封闭的白色细节会留在图中。</p></div>
+  <div id="image-detail-options"><label class="field-label" for="detail-mode">图案处理</label><select id="detail-mode"><option value="preserve">尽量保留原图（推荐）</option><option value="simplify">主动简化成大色块</option></select><p class="muted note">主要花纹按成品宽度分色，过小的碎块在尺寸适配稿里归并。</p></div>
+<details class="create-advanced"><summary>更多选项</summary><div class="create-options"><label for="max-colors">颜色上限</label><select id="max-colors"><option>2</option><option>3</option><option>4</option><option>5</option><option>6</option><option>7</option><option>8</option><option selected>9</option></select><span class="muted">色</span></div>
+</details>
+<p hidden class="style-rule" id="style-rule">保留主要花纹 · 归并颜色 · 规整平面稿</p>
+<label class="field-label" for="create-route">出稿后怎么做？</label><select id="create-route"><option value="auto">自动制版并检查（推荐）</option><option value="review">先看平面稿，逐步调整</option></select>
+<button id="generate" class="button primary full">自动制版并检查 →</button>
+</div></div></div>
+<div id="create-feedback" class="create-feedback" hidden aria-live="polite" aria-atomic="true"><p id="create-status"></p><p id="create-status-note" class="muted note"></p><button id="create-resume" class="text-button" hidden>继续查看这次生成</button><a id="create-raw-result" class="text-button" hidden target="_blank" rel="noopener">查看已生成的原图</a></div>
+</section>
+<section class="preview" aria-label="图案与针迹预览">
+<div class="canvas-document">
+<div class="preview-heading"><h2 id="project-title">正在载入作品</h2><span id="version-label" class="muted"></span></div>
+<p id="preview-stats" class="preview-stats" aria-live="polite"></p>
+</div>
+<div class="canvas-tools">
+<div class="tabs" role="group" aria-label="预览方式"><button data-view="artwork" aria-pressed="true">平面稿</button><button data-view="compare" aria-pressed="false" hidden>前后对比</button><button data-view="layers" aria-pressed="false">分色分层</button><button data-view="local" aria-pressed="false">色块针法</button><button data-view="simulation" aria-pressed="false" disabled>逐针模拟</button><button data-view="result" aria-pressed="false" disabled>刺绣效果</button><button data-view="coverage" aria-pressed="false" disabled>露底检查</button><button data-view="original" aria-pressed="false" hidden>参考原图</button></div>
+<div class="preview-toolbar" id="preview-toolbar"><label for="zoom">缩放</label><select id="zoom"><option value="1">适合画布</option><option value="2">放大 2 倍</option><option value="4">放大 4 倍</option></select><span hidden id="zoom-note" class="muted">放大后可滚动查看细节</span></div>
+</div>
+<div class="canvas-options">
+<div class="control-row" id="compare-controls" hidden><label for="compare-source">对照</label><select id="compare-source"></select><label class="check" id="fit-marks-label" hidden><input type="checkbox" id="fit-marks">用玫红色标出改动</label></div>
+  <div class="control-row" id="layer-controls" hidden><label for="layer">查看颜色</label><select id="layer"><option value="all">全部色块</option></select></div>
+  <div class="control-row" id="overlay-controls" hidden><label for="opacity">叠图透明度</label><input id="opacity" type="range" min="0" max="100" value="50"><output id="opacity-value">50%</output></div>
+<div id="proof-tools" class="proof-tools" hidden>
+    <label class="check"><input id="proof-enabled" type="checkbox">对照平面稿</label>
+    <label id="proof-range" hidden><span>左侧平面稿</span><input id="proof-position" type="range" min="0" max="100" value="50" aria-label="平面稿与针迹分界位置"><span id="proof-right-label">右侧针迹</span></label>
+  </div>
+</div>
+<div class="stage" id="stage" aria-busy="false"><div class="preview-scroll" id="preview-scroll"><div class="preview-sheet"><canvas id="canvas" width="1000" height="1100" role="img" aria-label="当前平面稿及尺寸标注"></canvas></div><div class="comparison" id="comparison" hidden><figure><figcaption id="compare-label">参考原图</figcaption><img id="compare-before" alt="参考原图"></figure><figure><figcaption>当前平面稿</figcaption><img id="compare-after" alt="当前平面稿"></figure></div></div><div id="empty-stage" hidden><p>从一张图片，或一句描述开始</p><span>生成的平面稿会显示在这里</span></div></div>
+<div id="play-controls" hidden><div class="control-row"><button id="play" class="button primary">播放</button><button id="restart" class="button">回到开始</button><button id="step-back" class="button">退一针</button><button id="step" class="button">进一针</button><label for="speed">速度</label><select id="speed"><option value="100">慢速</option><option value="600" selected>正常</option><option value="1800">快速</option></select><label class="check"><input id="jumps" type="checkbox">显示跳针</label></div><div class="play-meta"><span id="progress-text"></span><span id="current-color"></span></div><input class="progress" id="progress" type="range" min="0" max="0" value="0" step="1" aria-label="刺绣进度"><div class="control-row needle-jump"><label for="needle-number">跳到第</label><input id="needle-number" type="number" min="0" value="0" step="1" inputmode="numeric"><span>针</span><button id="go-needle" class="button">定位</button></div></div>
+  <div class="control-row" id="sewing-stage-control" hidden><label for="sewing-stage">跳到色段</label><select id="sewing-stage" aria-label="实际绣序"></select></div>
+<div class="canvas-bottom"><p class="caption" id="caption"></p><button type="button" id="edit-picked" class="text-button" hidden>编辑此色块 →</button></div>
+<section class="version-section" aria-label="平面稿版本">
+  <div class="version-heading"><h3>平面稿版本</h3><p id="version-note" class="muted note"></p>
+    <div id="version-pages" hidden><button id="versions-back" type="button" aria-label="上一组版本">‹</button><span id="version-page" aria-live="polite"></span><button id="versions-forward" type="button" aria-label="下一组版本">›</button></div>
+  </div>
+  <div id="versions" class="versions"></div>
+</section>
+</section>
+<aside class="inspector" aria-label="修改与制版设置">
+<div class="inspector-heading"><h2 id="inspector-title">修改图案</h2>
+  <button id="inspector-mode-toggle" class="inspector-mode-toggle" type="button" aria-controls="draft-tools" aria-expanded="false">高级模式</button>
+  <button id="return-to-canvas" class="text-button" type="button">回到画布 ↑</button>
+</div>
+<div id="draft-tools" role="group" aria-label="高级编辑工具" hidden>
+  <button type="button" data-inspector-tab="edit" aria-controls="edit-section" aria-pressed="true">改图与标注</button>
+  <button type="button" data-inspector-tab="palette" aria-controls="palette-editor" aria-pressed="false">手动配色</button>
+  <button type="button" data-inspector-tab="review" aria-controls="draft-revision detail-review" aria-pressed="false">本版检查</button>
+</div>
+<div id="material-tools" role="group" aria-label="高级绣制设置" hidden>
+  <button type="button" data-inspector-tab="tuning" aria-controls="thread-section density-section material-tuning" aria-pressed="false">针距微调</button>
+  <button type="button" data-inspector-tab="size" aria-controls="size-section material-advice" aria-pressed="false">尺寸建议</button>
+  <button type="button" data-inspector-tab="review" aria-controls="draft-revision" aria-pressed="false">本版检查</button>
+</div>
+<p id="material-review-empty" class="muted note">这版暂无检查结果。完成排针后可查看工艺评估。</p>
+<section id="draft-revision" class="production-review" aria-labelledby="draft-review-title" hidden>
+  <h3 id="draft-review-title">初版评估与修改</h3>
+  <p id="draft-review-summary" aria-live="polite"></p>
+  <button type="button" id="draft-recheck" class="button primary" hidden>按原尺寸重新排针并评估</button>
+  <div class="local-actions"><button type="button" id="draft-manual" class="button">手动修改</button>
+    <button type="button" id="draft-ai" class="button primary">AI 按建议修改</button></div>
+  <p id="draft-review-cost" class="muted note"></p>
+  <button type="button" id="draft-source" class="text-button" hidden>查看修改前的版本</button>
+  <ol id="draft-review-items"></ol>
+  <details id="draft-more" hidden><summary></summary><ol start="4"></ol></details>
+</section>
+<section id="needle-review" class="production-review" aria-label="可生产性评估" hidden>
+    <div class="assessment-heading"><div class="assessment-score" aria-label="工艺评分"><strong id="assessment-score">—</strong><span>/ 100</span></div><div><p class="assessment-eyebrow">可生产性评估 · 规则初评</p><h3 id="assessment-title" aria-live="polite">等待评估</h3><p id="assessment-production">量产未确认 · 尚未实物试绣</p></div></div>
+<p id="assessment-reasons" class="assessment-reasons"></p><p id="assessment-next" class="note"></p>
+<section id="repair-next" class="repair-card" hidden><h4 id="repair-next-title"></h4><p id="repair-next-note" class="note"></p><button id="repair-focus" class="button" type="button">定位并调整这块 →</button></section>
+<section id="repair-diff" class="repair-card" aria-live="polite" hidden><h4>调整前后</h4><table><thead><tr><th>实针几何检查</th><th>调整前</th><th>当前版</th></tr></thead><tbody id="repair-diff-rows"></tbody></table><p id="repair-diff-note" class="note"></p><button id="repair-restore" class="text-button" type="button">回到调整前针版</button></section>
+<div class="assessment-actions"><button id="repair-upgrade" class="button primary" type="button" hidden>用新版工艺重排</button><button id="repair-border" class="button" type="button" hidden>试排窄包边</button><button id="assessment-coverage" class="text-button">查看覆盖问题 →</button><button id="assessment-reset-width" class="text-button" hidden>恢复方案参考线宽</button><button id="assessment-retry" class="text-button" hidden>重试覆盖检查</button></div>
+<details id="needle-review-details"><summary id="needle-review-toggle">定位具体问题</summary><strong id="needle-review-title"></strong><p id="needle-review-note" class="muted note"></p><div id="needle-review-list" class="local-actions"></div></details>
+<details id="sewout-details" class="assessment-breakdown" hidden><summary id="sewout-toggle">登记实物试绣</summary>
+<ul id="sewout-history" class="sewout-history" hidden></ul>
+<form id="sewout-form" class="sewout-form">
+<label for="sewout-setup">试绣机台与用料<input id="sewout-setup" required maxlength="120" placeholder="例如：一号机、75D、白色斜纹布、单层衬"></label>
+<label for="sewout-result">这次绣出来的结果<select id="sewout-result" required><option value="">请选择</option><option value="pass">样品合格</option><option value="revise">需要改版</option></select></label>
+<label for="sewout-note">样品备注（选填）<input id="sewout-note" maxlength="300" placeholder="例如：右翅花瓣清楚，腹部交界仍有露底"></label>
+<button type="submit" id="sewout-save" class="button">保存本次试绣记录</button><p class="note" id="sewout-status" aria-live="polite"></p>
+</form></details>
+<details class="assessment-breakdown"><summary>查看评分与成品尺寸</summary>
+<p id="assessment-basis" class="muted note"></p>
+    <div id="assessment-components" class="assessment-components"></div>
+<details class="assessment-rules"><summary>评分怎么来的？</summary><p>针法与针向占 35 分，局部形状 25 分，应绣处覆盖与线色 15 分，细节尺寸 15 分，机器文件 10 分。</p><p>细线查中心线有没有连贯，窄带查横跨两侧的针向，有明确展开结构的面逐区检查方向。普通色面查覆盖，镂空查留白。覆盖达到试排要求即得该项满分。</p><p>任何一块针法或针向不合、局部形状异常、细节有风险，或应绣处未覆盖达到 2%、本色异常达到 5%，都需调整，最高 79 分。文件核对失败、未覆盖达到 10% 或本色异常达到 20% 时最高 39 分。检查通过且总分达到 80 可安排试绣，实物效果以对应线材和底布的样品为准。</p></details>
+</details>
+</section>
+<section id="coverage-panel" class="coverage-panel" hidden aria-label="针迹覆盖检查">
+    <div class="section-title"><strong>针迹覆盖检查</strong><button id="toggle-coverage" class="text-button">查看露底位置</button></div>
+    <p id="coverage-summary" aria-live="polite">生成针迹后，按参考线宽计算。</p>
+    <p id="coverage-detail" class="muted note"></p>
+    <button id="coverage-rebuild" class="button" hidden>重新生成针迹并检查</button>
+    <div class="coverage-legend"><span><i class="bare"></i>红色：没有绣线覆盖</span><span><i class="wrong"></i>橙色：本色不足或被后绣颜色遮住</span></div>
+    <details id="coverage-region-details"><summary id="coverage-region-count">定位到色块</summary><div id="coverage-colors" class="coverage-colors"></div></details>
+    <p class="muted note">包含底针与面针，排除跳针，透明孔不算漏底。几何检查不模拟拉缩、线材压扁和布料变形，实物仍需试绣。</p>
+  </section>
+<details id="effect-options"><summary>预览材质与参考线宽</summary><div id="result-controls" class="result-controls" hidden>
+    <label for="preview-thread">绣花线<select id="preview-thread"><option value="75D">75D · 较细 · 参考 0.20 mm</option><option value="105D">105D · 较粗 · 参考 0.24 mm</option></select></label>
+    <label for="preview-width">参考线宽（mm）<input id="preview-width" type="number" min="0.10" max="0.45" step="0.01" value="0.24"></label>
+    <label for="preview-material">线材效果<select id="preview-material"><option value="sheen">绣线质感 · 按落针顺序</option><option value="plain">素线 · 看清针路</option></select></label>
+    <label for="preview-fabric">底布颜色<select id="preview-fabric"><option value="linen">浅米色</option><option value="gray">灰色</option><option value="dark">深色 · 检查白线</option></select></label>
+    <p class="note">线宽用于预览与覆盖检查，可按实测校准；改线材会重新排针。调线宽本身不增加针数。</p>
+    <p id="render-status" class="note" role="status" aria-live="polite">绣线预览由当前电脑绘制，采用工程中的实际针迹。</p>
+  </div></details>
+<div class="control-row" id="history-controls" hidden><label for="plan-history">针数对比</label><select id="plan-history" aria-label="查看已排方案"></select></div>
+<section id="detail-review" class="detail-review" hidden><strong>本版细节</strong><p id="detail-review-note" class="muted note"></p><div class="local-actions"><button id="detail-simplify" class="button">检查哪些细节难绣 →</button><button id="detail-compare" class="text-button">对照参考原图</button></div><details id="detail-advanced"><summary>分色遗漏细节时</summary><button id="detail-preserve" class="text-button">从生成原图重新提取细节</button><p class="muted note">只能找回生成图里仍有的内容；精细模式可能需要放大尺寸和更多手动调整。</p></details></section>
+<section id="edit-section" aria-label="修改要求">
+    <div id="art-card-home"><div id="art-card" class="art-card">
+      <div class="art-reference-group">
+        <div class="art-field-heading"><span>参考图</span><button type="button" id="art-advanced" class="text-button" aria-haspopup="dialog" aria-controls="art-advanced-dialog">圈选局部 ↗</button></div>
+        <div id="art-references" class="art-references" aria-label="参考图片"></div>
+      </div>
+      <label class="art-prompt-label" for="edit-prompt">修改要求</label>
+      <div class="art-prompt-wrap"><textarea id="edit-prompt" rows="3" maxlength="3000" placeholder="例如，把蝴蝶结改成蓝色，保留原来的表情。"></textarea><div id="art-mentions" class="art-mentions" role="listbox" aria-label="选择图片引用" hidden></div></div>
+      <div class="art-output-options">
+        <label for="edit-detail-mode">图案处理<select id="edit-detail-mode"><option value="preserve">只改指定部分</option><option value="simplify">简化整个图案</option></select></label>
+        <label for="edit-max-colors">颜色上限<select id="edit-max-colors"><option value="2">2 色</option><option value="3">3 色</option><option value="4">4 色</option><option value="5">5 色</option><option value="6">6 色</option><option value="7">7 色</option><option value="8">8 色</option><option value="9" selected>9 色</option></select></label>
+      </div>
+      <button type="button" id="art-draft-summary" class="text-button" hidden></button>
+      <p id="art-feedback" class="note" role="status" hidden></p>
+      <div class="art-generate-row"><button id="edit" class="button primary full">生成修改稿</button></div>
+    </div></div>
+  </section>
+<div id="draft-shortcuts"><button type="button" id="open-palette" class="text-button" hidden>配色有改动，去保存 →</button><button type="button" id="open-draft-review" class="text-button" hidden>查看本版建议 →</button></div>
+<section id="palette-editor" aria-label="手动配色"><p class="muted note">点击色样换色，或输入颜色值。相同颜色会合并为一层。</p><div id="palette-fields"></div><div class="palette-actions"><button id="palette-save" class="button primary" disabled>保存为新版</button><button id="palette-cancel" class="button" disabled>还原配色</button></div><p class="muted note" id="palette-note" aria-live="polite">保存后重新匹配线色。</p></section>
+<div id="material-settings">
+  <section id="size-section"><h2>成品尺寸 <small>等比联动</small></h2>
+    <div class="size-fields">
+      <label for="width">宽<div class="number-field"><input id="width" type="number" value="60" min="20" max="160" step="0.1" aria-label="成品宽度"><span>mm</span></div></label>
+      <label for="height">高<div class="number-field"><input id="height" type="number" value="73.8" step="0.1" aria-label="成品高度"><span>mm</span></div></label>
+    </div>
+  </section>
+  <section id="fabric-section"><h2><label for="fabric">刺绣底料</label></h2>
+    <select id="fabric"><option value="twill">绣章布／斜纹布</option><option value="felt">毛毡／无纺布</option><option value="knit">衣服／针织面料</option></select>
+  </section>
+  <section id="thread-section"><h2>绣花线粗细</h2>
+    <div class="thread-choice" role="group" aria-label="绣花线粗细"><button data-thread="75D" aria-pressed="false">75D <small>较细 · 参考 0.20 mm</small></button><button data-thread="105D" aria-pressed="true">105D <small>较粗 · 参考 0.24 mm</small></button></div>
+  </section>
+  <section id="density-section"><h2>覆盖密度</h2>
+    <div class="density-choice" role="group" aria-label="覆盖密度"><button data-density="normal" aria-pressed="true">常规覆盖</button><button data-density="dense" aria-pressed="false">加密覆盖</button><button data-density="detail" aria-pressed="false">小图细排</button></div>
+    <p id="density-summary" class="muted note">填充 0.22 mm · 包边 0.40 mm</p>
+  </section>
+  <button id="material-size-hint" class="text-button" type="button">查看当前尺寸的细节建议 →</button>
+</div>
+<section id="material-tuning" aria-label="微调排针密度">
+  <div class="tuning-fields">
+    <label for="spacing">填针基准行距<div class="number-field"><input id="spacing" type="number" min="0.15" max="0.60" value="0.22" step="0.01"><span>mm</span></div></label>
+    <label for="satin-spacing">包边峰到峰间距<div class="number-field"><input id="satin-spacing" type="number" min="0.18" max="0.80" value="0.40" step="0.01"><span>mm</span></div></label>
+  </div>
+  <label class="check"><input id="adaptive-fill" type="checkbox" checked>斜纹布自动贴合色块边缘</label>
+  <p class="muted note">间距越小，针越密。小图细排单独加密包边和五官的缎面针。</p>
+  <p class="muted note" id="fabric-note">按稳定底布设置底针、色块压叠和拉缩补偿。</p>
+</section>
+<section id="material-advice" aria-label="尺寸建议">
+  <div id="refit-size" class="size-advice" hidden><p id="refit-size-note"></p><button id="refit-source" class="button">按新尺寸重做细节</button></div>
+  <div class="size-advice" id="size-advice"><strong id="size-advice-title">正在分析细节大小…</strong><p id="size-advice-text" class="muted note"></p><button id="apply-size-advice" class="text-button" hidden>放大到面绣参考尺寸</button></div>
+  <p class="muted note">线材旁的毫米数是用于试排的参考覆盖宽度，可按实物样线校准。</p>
+</section>
+<section id="craft-help" class="craft-help" hidden aria-label="分区与针法工具">
+    <h2 id="plate-mode-title">选择制版方式</h2>
+    <div class="plate-modes" role="group" aria-labelledby="plate-mode-title" aria-describedby="plate-mode-note">
+      <button type="button" data-plate-mode="rules" aria-pressed="true"><strong>普通制版</strong><small>按规则排针 · 免费</small></button>
+      <button type="button" data-plate-mode="ai" aria-pressed="false"><strong>AI 辅助制版</strong><small>识别色块、建议针法</small></button>
+    </div>
+    <p class="muted note" id="plate-mode-note" aria-live="polite"></p>
+    <button id="plate-resolve" class="text-button" type="button" hidden></button>
+    <div id="plate-ai-actions" class="local-actions" hidden>
+      <button id="ai-craft-selected" type="button" class="button primary">分析选中色块</button>
+      <button id="ai-craft-start" type="button" class="button">分析整张图</button>
+    </div>
+    <p id="auto-craft-summary" class="muted note"></p>
+    <details id="craft-options"><summary>调整色块与针法</summary>
+    <div class="craft-tool-tabs" role="group" aria-label="选择制版工具"><button data-craft-tool="split" aria-pressed="true">拆分与合并</button><button data-craft-tool="needle" aria-pressed="false">局部针法</button></div>
+    <section id="ai-split-panel" class="ai-craft-panel" hidden>
+      <h3>哪些色块需要拆开？</h3><p class="muted note">长条转弯、分叉等位置，拆开后可以分别设置针向。颜色相同的区域也可以拆成几块。</p>
+      <button id="split-free-start" class="button full">自动检查分区</button><button id="split-open-manual" class="text-button">在图上手动拆分、合并 →</button><p class="muted note">自动检查不调用 AI。建议先预览，确认采用后才修改图案。</p>
+      <details id="split-ai-options"><summary>用 AI 参考原图，辅助分区</summary><label class="field-label" for="ai-split-prompt">希望保留或调整什么？（选填）</label><textarea id="ai-split-prompt" rows="2" maxlength="500" placeholder="例如：翅膀保留完整，身体按转弯位置分开。"></textarea><button id="ai-split-start" class="button full">用 AI 分析分区</button><p class="muted note">点击后才调用 AI，建议需你确认后采用。不会找回原稿中已经丢失的花纹。</p></details>
+      <p id="ai-split-status" class="muted note" aria-live="polite"></p><div id="ai-split-results"></div><button id="ai-split-apply" class="button primary full" hidden>采用分区，继续手动调整</button>
+    </section>
+    <section id="ai-craft-panel" class="ai-craft-panel" hidden>
+      <h3>每个色块用什么针法？</h3><p id="craft-method-summary" class="muted note">已根据色块形状自动匹配针法。</p>
+      <button id="craft-open-manual" class="button full">点选色块，手动调整针法</button><p class="muted note">大面填针、窄条缎面、细线走针。可以单独调整针向、密度和底针，其他色块保持自动。</p>
+      <details id="craft-ai-options"><summary>补充工艺要求（选填）</summary>
+        <label class="field-label" for="ai-craft-prompt">工艺要求（选填）</label><textarea id="ai-craft-prompt" rows="2" maxlength="500" placeholder="例如让脸颊的毛纹向外走"></textarea>
+
+      </details>
+      <p id="ai-craft-status" class="muted note" aria-live="polite"></p><div id="ai-craft-results"></div><button id="ai-craft-apply" class="button primary full" hidden>采用方案，再检查针迹</button>
+    </section>
+    <details id="advanced-compare"><summary>分色对照</summary><button data-view="overlay" class="text-button" aria-pressed="false">叠图核对轮廓</button></details>
+    </details>
+  </section>
+<div id="local-toolbar" class="local-toolbar" hidden><label for="local-region">选择色块</label><select id="local-region"></select><div class="local-select-tools"><button id="local-single" class="button" aria-pressed="true">单选调针法</button><button id="local-multi" class="button" aria-pressed="false">多选合并</button><button id="local-merge" class="button primary" disabled>合并选中的区域</button><span id="local-selection-count" class="muted"></span></div><p id="local-hint" class="muted note" aria-live="polite">滑过只描边，点击才选中。分区是为了分别设置针法和针向，不改变图案配色。</p></div>
+<section id="local-editor" hidden>
+    <div class="section-title"><h2>手动制版</h2><span class="muted">选区属性</span></div>
+    <p id="local-selection" class="local-selection"></p>
+    <div id="local-repair-note" class="repair-card" hidden><strong>本版发现的问题</strong><p id="local-repair-guidance" class="note"></p><button id="repair-return-art" class="text-button" type="button" hidden>回到平面稿调整图案 →</button></div>
+    <div id="local-recommendation" class="local-recommendation"></div>
+    <label class="field-label" for="local-role">这个色块的绣制层次</label><select id="local-role"><option value="">按形状自动安排</option><option value="base">底色 · 先铺</option><option value="surface">主体色面</option><option value="detail">表面细节</option><option value="edge">收边 · 最后完成</option></select>
+    <label class="field-label" for="local-method">这个区域的针法</label><select id="local-method"><option value="auto">自动判断</option><option value="fill">填针 · 固定针向</option><option value="guided">填针 · 随方向曲线</option><option value="spread">填针 · 随展开方向分区</option><option value="satin">缎面针 · 随窄条转向</option><option value="run">单针走针 · 精细轮廓</option><option value="running">豆针 / 三重走针 · 加强细线</option></select>
+    <div id="local-angle-field"><label class="field-label" for="local-angle">填针角度（°）</label><input id="local-angle" type="number" min="0" max="179.9" step="any" placeholder="自动"><p class="muted note">0° 水平，90° 竖直。斜线显示实际针向。</p></div>
+    <div id="local-guide-field" hidden><button id="local-draw-guide" class="button full">画方向曲线 · 三个点</button><p class="muted note">依次点击起点、经过点、终点。曲线需要穿过选区。</p></div>
+    <div class="local-fields"><label id="local-fill-spacing-field" for="local-fill-spacing">填针行距（mm）<input id="local-fill-spacing" type="number" min="0.15" max="0.6" step="0.01" placeholder="跟随全局"></label><label id="local-satin-spacing-field" for="local-satin-spacing">缎面峰间距（mm）<input id="local-satin-spacing" type="number" min="0.18" max="0.8" step="0.01" placeholder="跟随全局"></label></div>
+    <div id="local-running-fields" hidden><div class="local-fields"><label for="local-run-length">走针针长（mm）<input id="local-run-length" type="number" min="0.4" max="4" step="0.1" placeholder="默认 1.6 / 2"></label><label for="local-run-tolerance">轮廓容差（mm）<input id="local-run-tolerance" type="number" min="0.01" max="0.3" step="0.01" placeholder="默认 0.08"></label><label for="local-run-repeats">整条线重复次数<input id="local-run-repeats" type="number" min="1" max="5" step="1" placeholder="默认 1"></label><label id="local-bean-field" for="local-bean-repeats">每针回针次数<input id="local-bean-repeats" type="number" min="1" max="3" step="1" placeholder="默认 1（三重针）"></label></div><p class="muted note">走针沿细条中心线排针。缩小容差更贴合曲线；增加往返会叠针，不能替代宽色块的填充。</p></div>
+    <div id="local-underlay-field"><label class="field-label" for="local-underlay">局部底针</label><select id="local-underlay"><option value="auto">按形状自动选择</option><option value="none">不铺底针</option><option value="light">轻底针</option><option value="full">加强底针</option></select><p id="local-underlay-note" class="muted note"></p></div>
+    <details id="local-compensation-fields"><summary>针长与补偿</summary><div class="local-fields"><label for="local-max-stitch">最大针长（mm）<input id="local-max-stitch" type="number" min="1" max="5.8" step="0.1" placeholder="按针法默认"></label><label for="local-pull">拉缩补偿（mm）<input id="local-pull" type="number" min="0" max="0.4" step="0.01" placeholder="按底料默认"></label></div></details>
+    <div class="local-actions"><button id="repair-apply-plan" class="button primary" type="button" hidden>应用并复查针迹</button><button id="local-apply" class="button primary">应用到选区</button><button id="local-reset-region" class="button">选区恢复自动</button></div><button id="local-cancel-edit" class="text-button" hidden>放弃本次修改</button>
+    <p id="local-status" class="muted note" aria-live="polite"></p>
+    <div class="local-split"><h3>纠正分区</h3><p class="muted note">没分开：选中一块，再画线拆开。分得太碎：在画布上方打开“多选合并”。合并后仍能再拆，支持撤销。</p><button id="local-cut" class="button full">画线拆分当前色块</button></div>
+    <div class="local-actions"><button id="local-cancel-draw" class="text-button" hidden>取消画线</button><button id="local-undo" class="text-button">撤销一步</button><button id="local-reset-all" class="text-button">还原全部局部调整</button></div>
+    <button id="local-make" class="button primary full" style="margin-top:14px">更新绣花工程</button>
+  </section>
+<section id="detail-fit-panel" class="detail-fit-panel"><h2>细节能否绣清楚</h2><p id="detail-fit-summary" aria-live="polite"></p><p class="muted note">按成品尺寸保留主花纹，给挤在一起的色块留出分隔，碎点归入周围底色。可打开前后对照查看改动。</p><label class="check"><input id="auto-simplify" type="checkbox" checked>生成针迹前自动取舍难绣细节（免费）</label><p id="fit-version-note" class="muted note"></p><button id="fit-details" class="button full">先看自动取舍后的平面稿</button><details><summary id="detail-fit-toggle">查看需要复核的部位</summary><div id="detail-fit-list" class="detail-fit-list"></div></details><p class="muted note">按当前尺寸和参考线宽提示，不是实绣认证；小孔、窄颈检查是几何近似，未模拟张力和拉缩，也未完整检查所有相邻间隙。</p></section>
+<section id="craft-section" hidden><details><summary>查看本版排针工艺</summary><p class="muted note" id="craft-summary"></p><p class="muted note" id="craft-order"></p><p class="muted note" id="craft-fabric"></p></details></section>
+<section class="make-section"><p class="muted note">默认自动排针。需要调整某个区域时，点击图案色块或预览上方“色块针法”。</p><button id="make" class="button primary full">制作绣花工程</button><div class="estimate"><span>预计针数</span><div><strong id="total">—</strong><span> 针</span></div><small id="stats-note">选择平面稿后排针计算</small></div><p class="muted note" id="plan-note">包含打底和主绣；跳针、剪线不计入。</p></section>
+<details id="thread-list-details"><summary>线色与针数</summary>
+<section id="thread-colors-section"><div class="colors" id="colors"></div><p class="muted note">示范色号：Madeira Rayon · 需核对实体线卡</p></section>
+</details>
+<section id="download-section" hidden><h2>当前绣花工程</h2><p class="muted" id="plan-params"></p><div class="downloads" id="downloads"></div><p class="muted note">试排文件，未实物试绣。复杂细节、针法与拉缩仍可能需要微调。</p></section>
+</aside>
+</div>
+<footer class="wizard-footer" id="wizard-footer"><button id="wizard-back" class="button">上一步</button><span id="wizard-footer-note">按标注的成品尺寸检查造型和颜色。</span><button id="wizard-next" class="button primary">确认图案，设置工艺 →</button><a id="wizard-download" class="button primary" download hidden>下载工程包 ↓</a></footer>
+</main>
+<dialog id="art-reference-dialog" class="art-dialog reference-dialog"><header><div><h2>选择参考图片</h2><p>当前作品的图片，或上传其他参考图。</p></div><button class="button" data-close-dialog="art-reference-dialog">关闭</button></header><div id="art-reference-candidates" class="art-candidates"></div><label class="button full reference-upload" for="art-upload">＋ 上传参考图</label><input id="art-upload" class="sr-only" type="file" accept="image/png,image/jpeg,image/webp" multiple><p class="muted note">最多 8 张，单张 10 MB，总计 30 MB。按原始文件发送。</p></dialog>
+<dialog id="art-advanced-dialog" class="art-dialog advanced-dialog" aria-labelledby="art-dialog-title"><header><div><h2 id="art-dialog-title">局部标注</h2><p>在图一上圈出要改的位置，再给每处标注写要求。</p></div><button class="button" data-close-dialog="art-advanced-dialog">完成编辑</button></header><div class="advanced-grid"><section id="art-mark-panel"><div id="art-mark-tools" class="art-mark-tools"><div class="art-mark-modes"><button id="art-mark-select" type="button" aria-pressed="false">选择 / 移动</button><button id="art-mark-add" type="button" aria-pressed="true">＋ 添加标记</button></div><button id="art-clear-marks" class="text-button">清除标注</button><label id="art-radius-label" for="art-radius">新标记大小</label><input id="art-radius" type="range" min="1.5" max="50" step="0.1" value="14"></div><p id="art-mark-status" class="art-mark-status" aria-live="polite">点击图片添加一个标记</p><div class="art-mark-stage"><img id="art-mark-image" alt="圈选修改的第一张参考图"><canvas id="art-mark-canvas" tabindex="0" aria-label="局部标注画布：拖动标记移动，拖动四角调整大小" aria-describedby="art-mark-status"></canvas></div><p class="muted note">选中标记后可用方向键微调，Delete 删除。标记仅用于告诉 AI 修改位置。</p><div id="art-marks"></div></section><div id="art-advanced-host"></div></div></dialog>
+<script type="module" src="/studio.js"></script></body></html>

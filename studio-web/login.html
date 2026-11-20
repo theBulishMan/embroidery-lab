@@ -1,0 +1,27 @@
+<!doctype html>
+<html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#f5f2e9"><title>登录 · Pika 刺绣工作台</title><link rel="stylesheet" href="/auth.css"></head>
+<body class="login-page">
+<main class="login-layout">
+  <section class="brand-panel" aria-label="Pika 刺绣工作台">
+    <a class="brand" href="/login" aria-label="Pika 刺绣工作台首页"><span class="brand-mark" aria-hidden="true">p<span>·</span></span><span>PIKA<span class="brand-sub">刺绣工作台</span></span></a>
+    <div class="brand-story"><p class="eyebrow">A LITTLE IDEA. A THOUSAND STITCHES.</p><h1>把喜欢的图案，<br>绣进日常<span class="accent-dot">。</span></h1><p class="story-copy">从一张图片出发，<br>慢慢做成属于你的刺绣作品。</p></div>
+    <div class="art-stage"><img src="/login-art.svg" alt="绣框中的花朵图案示意" width="520" height="440"><span class="art-caption">一朵花，也可以是一个开始。<span>图案示意</span></span></div>
+    <div class="process-note"><span><b>01</b> 整理图案</span><i aria-hidden="true">—</i><span><b>02</b> 调整工艺</span><i aria-hidden="true">—</i><span><b>03</b> 检查导出</span></div>
+  </section>
+  <section class="form-panel" aria-labelledby="form-title">
+    <span class="access-note"><i aria-hidden="true"></i> 邀请制工作室</span>
+    <div class="form-wrap">
+      <p class="eyebrow form-eyebrow">YOUR CREATIVE CORNER</p><h2 id="form-title">欢迎回来</h2><p id="form-description" class="form-description">登录，继续你的刺绣创作。</p>
+      <div class="auth-tabs" role="tablist" aria-label="登录或注册"><button type="button" id="login-tab" role="tab" aria-selected="true" aria-controls="auth-form">账号登录</button><button type="button" id="register-tab" role="tab" aria-selected="false" aria-controls="auth-form" tabindex="-1">邀请码注册</button></div>
+      <form id="auth-form" aria-labelledby="form-title">
+        <label for="username">账号</label><input id="username" name="username" autocomplete="username" minlength="3" maxlength="60" required autocapitalize="none" spellcheck="false" placeholder="输入账号或邮箱">
+        <label for="password">密码</label><div class="password-field"><input id="password" name="password" type="password" autocomplete="current-password" minlength="10" maxlength="128" required placeholder="输入你的密码"><button type="button" class="reveal-password" aria-label="显示密码" aria-pressed="false" data-password="password"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12Z"/><circle cx="12" cy="12" r="3"/></svg></button></div>
+        <div id="register-fields" hidden><label for="confirm-password">确认密码</label><input id="confirm-password" name="confirm-password" type="password" autocomplete="new-password" minlength="10" maxlength="128" placeholder="再次输入密码"><label for="invite-code">邀请码</label><input id="invite-code" name="invite-code" autocomplete="off" maxlength="100" placeholder="输入管理员提供的邀请码"><p class="field-help">邀请码仅在首次注册时使用。</p></div>
+        <p id="form-error" class="form-error" role="alert" hidden></p>
+        <button type="submit" id="submit-auth" class="primary-action"><span>进入工作台</span><span aria-hidden="true">↗</span></button>
+      </form>
+      <p id="form-footnote" class="form-footnote">你的作品，会在这里等你。</p>
+    </div>
+    <footer class="login-footer"><span>PIKAPRINT · 让创意落在针线上</span><span>需要邀请码？请联系管理员</span></footer>
+  </section>
+</main><script type="module" src="/auth.js"></script></body></html>

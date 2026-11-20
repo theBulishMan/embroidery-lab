@@ -1,0 +1,122 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>平面稿分色制版 · 兔子测试</title>
+<style>
+:root{color-scheme:light;--ink:#242b27;--muted:#6e776f;--green:#304f40;--paper:#fafaf6;--line:#dde2d9;--accent:#c47736}
+*{box-sizing:border-box}body{margin:0;background:var(--paper);color:var(--ink);font:14px/1.5 -apple-system,BlinkMacSystemFont,"PingFang SC",sans-serif}button,input,select{font:inherit;color:inherit}button,a,input,select{touch-action:manipulation}button{cursor:pointer}button:disabled{cursor:wait;opacity:.5}a{color:var(--green)}button:focus-visible,a:focus-visible,input:focus-visible,select:focus-visible{outline:3px solid #9baea0;outline-offset:3px}
+main{max-width:1180px;margin:0 auto;padding:25px 28px 36px}header{display:flex;align-items:center;justify-content:space-between;gap:14px;flex-wrap:wrap;padding-bottom:22px;border-bottom:1px solid var(--line)}h1{font-size:21px;font-weight:600;margin:0}header p{color:var(--muted);margin:4px 0 0;font-size:13px}.version{color:var(--green);background:#eaf0e9;padding:5px 10px;border-radius:20px;font-size:12px}
+.workspace{display:grid;grid-template-columns:minmax(0,1fr) 285px;gap:34px;margin-top:22px}.preview{min-width:0}.tabs{display:flex;flex-wrap:wrap;gap:5px}.tabs button{border:0;background:transparent;border-radius:7px;padding:9px 12px;color:var(--muted)}.tabs button[aria-pressed=true]{background:var(--green);color:#fff}.stage{max-width:610px;margin:8px auto 0;position:relative}canvas{display:block;width:100%;height:auto;max-height:640px;object-fit:contain}.stage[aria-busy=true]{opacity:.5}.caption{font-size:12px;color:var(--muted);text-align:center;min-height:18px}.below{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin:12px 0}.below input[type=range]{flex:1;min-width:100px;accent-color:var(--green)}.below select{padding:6px;border:1px solid var(--line);background:white;border-radius:6px}label{display:block}button.action{border:1px solid var(--line);border-radius:7px;padding:8px 13px;background:white}button.primary{background:var(--green);color:white;border-color:var(--green)}[hidden]{display:none!important}.count{font-variant-numeric:tabular-nums}.progress{width:100%;accent-color:var(--green)}.play-row{display:flex;align-items:center;gap:8px;flex-wrap:wrap}.play-row select{border:1px solid var(--line);border-radius:6px;padding:6px;background:white}.play-meta{display:flex;justify-content:space-between;gap:10px;margin-top:10px;font-size:12px;color:var(--muted)}
+aside section{padding:17px 0;border-bottom:1px solid var(--line)}aside section:first-child{padding-top:0}h2{font-size:14px;font-weight:600;margin:0 0 10px}.small{font-size:12px;color:var(--muted)}.size-fields{display:grid;grid-template-columns:1fr 1fr;gap:12px}.field{display:flex;align-items:center;border:1px solid #cbd4c8;border-radius:7px;background:white;margin-top:4px;padding-right:10px}.field input{width:100%;min-width:0;border:0;outline:0;background:transparent;padding:9px 10px;appearance:textfield}.field span{font-size:12px;color:var(--muted)}.field:focus-within{outline:3px solid #c9d8ca}.thread-choice{display:grid;grid-template-columns:1fr 1fr;gap:9px}.thread-choice button{background:white;border:1px solid var(--line);padding:11px 8px;border-radius:8px}.thread-choice button[aria-pressed=true]{background:#edf2eb;border-color:var(--green);color:var(--green)}.thread-choice span{display:block;font-size:12px;margin-top:2px;color:var(--muted)}details{margin-top:12px;font-size:12px}summary{cursor:pointer;color:var(--muted)}.density{display:flex;align-items:center;gap:8px;margin-top:10px}.density input{width:85px;padding:7px;border:1px solid var(--line);border-radius:6px;background:white}.expected{background:#edf2eb;padding:16px;border-radius:9px;margin-top:17px}.expected .number{font-size:34px;font-weight:500;letter-spacing:-1px;line-height:1.3}.expected .label{font-size:12px;color:var(--green)}.number small{font-size:14px;letter-spacing:0}.summary-meta{font-size:12px;color:var(--muted);margin-top:7px}.state{font-size:12px;min-height:18px;margin-top:8px;color:var(--green)}.state.error{color:#a33e2b}.color-list{display:grid;gap:6px}.color-row{display:flex;align-items:center;gap:9px;background:transparent;border:0;padding:8px 0;text-align:left;width:100%;border-radius:6px}.color-row:hover{background:#eef0e9}.swatch{width:17px;height:17px;border-radius:50%;border:1px solid #0002;flex:none}.color-title{flex:1}.color-title small{display:block;color:var(--muted);font-size:11px}.color-count{font-variant-numeric:tabular-nums}.download{display:flex;flex-wrap:wrap;gap:9px;margin-top:15px}.download a{border:1px solid #cbd4c8;border-radius:6px;padding:8px 11px;text-decoration:none;background:white}.download a[aria-disabled=true]{opacity:.4;pointer-events:none}.note{font-size:12px;line-height:1.7;color:var(--muted);margin-top:12px}.footer{display:flex;gap:18px;flex-wrap:wrap;border-top:1px solid var(--line);margin-top:25px;padding-top:16px;font-size:12px;color:var(--muted)}
+@media(max-width:780px){main{padding:18px 16px}.workspace{grid-template-columns:1fr;gap:18px}.stage{max-width:450px}aside{display:grid;grid-template-columns:1fr 1fr;gap:16px}aside section{padding-top:0}aside .estimate-section,aside .colors-section,aside .export-section{grid-column:1/-1}.expected{margin-top:0}.color-list{grid-template-columns:1fr 1fr;gap:6px 18px}canvas{max-height:560px}}
+@media(max-width:420px){main{padding-inline:12px}aside{display:block}aside section{padding:15px 0}.color-list{grid-template-columns:1fr}h1{font-size:19px}.tabs button{padding:9px 10px;min-height:44px}button.action{min-height:44px}.field input,.density input{font-size:16px}.thread-choice button{min-height:52px}}
+</style>
+</head>
+<body><main>
+<header><div><h1>平面稿分色制版</h1><p>原照片 → 规整平面稿 → 分色分层 → 针迹模拟</p></div><span class="version">4 色 / 最多 9 色</span></header>
+<div class="workspace">
+<div class="preview">
+  <div class="tabs" role="group" aria-label="预览方式">
+    <button data-mode="original" aria-pressed="false">原照片</button><button data-mode="repair" aria-pressed="true">规整平面稿</button><button data-mode="layers" aria-pressed="false">分色色块</button><button data-mode="overlay" aria-pressed="false">叠图核对</button><button data-mode="simulation" aria-pressed="false">逐针模拟</button><button data-mode="result" aria-pressed="false">刺绣效果</button>
+  </div>
+  <div class="stage" aria-busy="false"><canvas id="canvas" width="1000" height="1100" role="img" aria-label="选定圆润平面稿分色的兔子图案，包含宽度和高度标注"></canvas></div>
+  <div class="caption" id="caption"></div>
+  <div class="below" id="layer-controls"><label for="layer">查看色块</label><select id="layer"><option value="all">全部 4 色</option><option value="0">浅黄 · 底面</option><option value="1">粉色 · 耳内、腮红、舌头</option><option value="2">黑色 · 轮廓与五官</option><option value="3">白色 · 高光</option></select></div>
+  <div class="below" id="overlay-controls" hidden><label for="opacity">分色叠加</label><input id="opacity" type="range" min="0" max="100" value="50"><output id="opacity-label">50%</output></div>
+  <div id="play-controls" hidden>
+    <div class="play-row"><button class="action primary" id="play">从头播放</button><button class="action" id="step">前进一针</button><label for="speed" class="small">速度</label><select id="speed"><option value="100">慢速</option><option value="550" selected>正常</option><option value="1800">快速</option></select><label class="small"><input type="checkbox" id="jumps"> 显示跳针</label></div>
+    <div class="play-meta"><span id="progress-label" class="count"></span><span id="active-color"></span></div><input id="progress" class="progress" aria-label="刺绣进度" type="range" min="0" step="1">
+  </div>
+</div>
+<aside>
+  <section><h2>成品尺寸</h2><div class="size-fields"><label>宽度<div class="field"><input id="width" type="number" min="25" max="140" step="0.1" value="60" aria-label="成品宽度"><span>mm</span></div></label><label>高度<div class="field"><input id="height" type="number" step="0.1" value="68.8" aria-label="成品高度"><span>mm</span></div></label></div><div class="small" style="margin-top:7px">按选定稿比例联动 · 初始 60 mm 为演示尺寸</div></section>
+  <section><h2>绣花线粗细</h2><div class="thread-choice" role="group" aria-label="绣花线粗细"><button data-thread="75D" aria-pressed="false">75D<span>较细</span></button><button data-thread="105D" aria-pressed="true">105D<span>较粗</span></button></div><details><summary>微调排针密度</summary><label class="density">针行间距<input id="spacing" type="number" min="0.25" max="0.60" step="0.01" value="0.42" aria-label="针行间距"> mm</label><div class="note">75D / 105D 暂用可调的试排预设，需按实际线材和底布试绣校准。</div></details></section>
+  <section class="estimate-section"><div class="expected"><div class="label">预计针数</div><div class="number count"><span id="total">—</span> <small>针</small></div><div class="summary-meta" id="estimate-meta"></div></div><div class="state" id="state" aria-live="polite"></div><button class="action" id="retry" hidden>重新排针</button><div class="small">包含打底和主绣；跳针、剪线不计入针数</div></section>
+  <section class="colors-section"><h2>线色与针数</h2><div class="color-list" id="colors"></div><div class="small" style="margin-top:7px">示范色号：Madeira Rayon · 需核对实体线卡</div></section>
+  <section class="export-section"><h2>当前方案</h2><div class="small" id="current-plan"></div><div class="download"><a data-file="rabbit-layers.svg" download>矢量分色</a><a data-file="machine/rabbit.dst" download>DST</a><a data-file="machine/rabbit.pes" download>PES</a><a data-file="thread-order.csv" download>配线单</a></div><div class="note">试验版，未试绣。针迹效果由当前方案绘制；实物拉缩和覆盖仍需试绣确认。</div></section>
+</aside></div>
+<div class="footer"><a href="original-vs-repaired.png" target="_blank" rel="noopener">照片与平面稿对照</a><a href="original.jpg" target="_blank" rel="noopener">查看完整原照片</a><a id="readme" href="README.md">测试说明</a></div>
+</main>
+<script id="initial-data" type="application/json">__DEFAULT_DATA__</script>
+<script>
+(() => {
+  const $=s=>document.querySelector(s);
+  let data=JSON.parse($('#initial-data').textContent), mode='repair',layer='all', index=data.commands.length;
+  let thread='105D',playing=false,frame=0,previous=0,debt=0,timer=0,requestId=0,busy=false;
+  const ratio=data.meta.design_height_mm/data.meta.design_width_mm;
+  const canvas=$('#canvas'),ctx=canvas.getContext('2d'),photo=new Image();photo.src=data.originalDataUri;const repaired=new Image();repaired.src=data.repairedDataUri;
+  let unit=1,originX=0,originY=0;
+  const fmt=n=>Number(n).toLocaleString('zh-CN',{maximumFractionDigits:1});
+  const status=(s,error=false)=>{$('#state').textContent=s;$('#state').classList.toggle('error',error)};
+  function dimensions(){
+    const w=data.meta.design_width_mm,h=data.meta.design_height_mm;
+    const ax=originX+5*unit,ay=originY+5*unit,bx=ax+w*unit,by=ay+h*unit;
+    ctx.save();ctx.strokeStyle='#798678';ctx.fillStyle='#586555';ctx.lineWidth=1.5;ctx.font='22px -apple-system,"PingFang SC",sans-serif';
+    function line(a,b,c,d){ctx.beginPath();ctx.moveTo(a,b);ctx.lineTo(c,d);ctx.stroke()}
+    function arrow(x,y,angle){ctx.beginPath();ctx.moveTo(x,y);ctx.lineTo(x+9*Math.cos(angle+.4),y+9*Math.sin(angle+.4));ctx.lineTo(x+9*Math.cos(angle-.4),y+9*Math.sin(angle-.4));ctx.closePath();ctx.fill()}
+    const bottom=by+5*unit,right=bx+5*unit;
+    line(ax,by+unit,ax,bottom+8);line(bx,by+unit,bx,bottom+8);line(ax,bottom,bx,bottom);arrow(ax,bottom,0);arrow(bx,bottom,Math.PI);
+    const label=`${fmt(w)} mm`,tw=ctx.measureText(label).width;ctx.fillStyle='#fafaf6';ctx.fillRect((ax+bx-tw)/2-9,bottom-16,tw+18,31);ctx.fillStyle='#586555';ctx.textAlign='center';ctx.textBaseline='middle';ctx.fillText(label,(ax+bx)/2,bottom);
+    line(bx+unit,ay,right+8,ay);line(bx+unit,by,right+8,by);line(right,ay,right,by);arrow(right,ay,Math.PI/2);arrow(right,by,-Math.PI/2);
+    ctx.translate(right,(ay+by)/2);ctx.rotate(-Math.PI/2);const hl=`${fmt(h)} mm`,hw=ctx.measureText(hl).width;ctx.fillStyle='#fafaf6';ctx.fillRect(-hw/2-9,-16,hw+18,31);ctx.fillStyle='#586555';ctx.fillText(hl,0,0);ctx.restore();
+  }
+  function drawPhoto(){
+    if(!photo.complete||!photo.naturalWidth)return;
+    const b=data.meta.source_bounds_px,c=data.sourceCrop,p=data.meta.design_width_mm/(b[2]-b[0]);
+    ctx.drawImage(photo,originX+(5+(c[0]-b[0])*p)*unit,originY+(5+(c[1]-b[1])*p)*unit,(c[2]-c[0])*p*unit,(c[3]-c[1])*p*unit);
+  }
+  function drawLayers(alpha=1){ctx.save();ctx.translate(originX,originY);ctx.scale(unit,unit);
+    data.meta.separated_objects.forEach(o=>{ctx.globalAlpha=alpha*(layer==='all'||Number(layer)===o.color?1:.07);ctx.fillStyle=data.meta.colors[o.color].hex;ctx.fill(new Path2D(o.path),'evenodd')});ctx.restore();}
+  const shade=(c,v)=>`rgb(${c.map(n=>Math.round(v<0?n*(1+v):n+(255-n)*v)).join(',')})`;
+  function segment(a,b,color,width,off=0){ctx.strokeStyle=color;ctx.lineWidth=width*unit;ctx.lineCap='round';ctx.beginPath();ctx.moveTo(originX+(a[0]+off)*unit,originY+(a[1]+off)*unit);ctx.lineTo(originX+(b[0]+off)*unit,originY+(b[1]+off)*unit);ctx.stroke()}
+  function drawStitches(){let last=null,needle=null,ci=0;const end=mode==='result'?data.commands.length:index;
+    for(let i=0;i<end;i++){const p=data.commands[i];if(p[2]===0&&last){const c=data.meta.colors[p[3]].thread.rgb,v=data.meta.row_spacing_mm*1.02;
+      if(mode==='result')segment(last,p,shade(c,-.25),v*1.08,.045);segment(last,p,shade(c,0),v);if(mode==='result')segment(last,p,shade(c,.2),.06,-.035);needle=p;ci=p[3];
+    }else if(p[2]===1&&last&&$('#jumps').checked&&mode==='simulation'){ctx.setLineDash([6,6]);segment(last,p,'#be7039',.10);ctx.setLineDash([])}last=p;}
+    if(mode==='simulation'&&needle&&index<data.commands.length){ctx.beginPath();ctx.arc(originX+needle[0]*unit,originY+needle[1]*unit,6,0,Math.PI*2);ctx.fillStyle='#b6662d';ctx.fill();ctx.strokeStyle='white';ctx.lineWidth=2;ctx.stroke()}
+    $('#active-color').textContent=data.meta.colors[ci].name;
+  }
+  function paint(){
+    const logicalW=data.width+10,logicalH=data.height+10;canvas.width=1000;canvas.height=Math.round(1000*logicalH/logicalW);unit=1000/logicalW;originX=unit;originY=unit;
+    ctx.fillStyle='#fafaf6';ctx.fillRect(0,0,canvas.width,canvas.height);
+    if(mode==='original')drawPhoto();
+    if((mode==='repair'||mode==='overlay')&&repaired.complete&&repaired.naturalWidth)ctx.drawImage(repaired,originX+5*unit,originY+5*unit,data.meta.design_width_mm*unit,data.meta.design_height_mm*unit);
+    if(mode==='layers')drawLayers();if(mode==='overlay')drawLayers(Number($('#opacity').value)/100);
+    if(mode==='simulation'||mode==='result')drawStitches();if(mode!=='original')dimensions();
+    $('#layer-controls').hidden=mode!=='layers';$('#overlay-controls').hidden=mode!=='overlay';$('#play-controls').hidden=mode!=='simulation';
+    $('#caption').textContent=mode==='original'?'原照片参考 · 当前版面以选定平面稿为准':mode==='repair'?'你选定的平面稿 · 圆润轮廓、平滑曲线':mode==='overlay'?'与选定平面稿叠合 · 核对曲线与色块':mode==='layers'?`${data.meta.separated_objects.length} 个色块 · 从选定平面稿分层`:'当前试排针迹 · 效果仍需实物试绣核对';
+    $('#progress').max=data.commands.length;$('#progress').value=index;
+    $('#progress-label').textContent=`已绣 ${fmt(index?data.prefix[index-1]:0)} / ${fmt(data.stats.stitch_count)} 针`;
+    if(!playing)$('#play').textContent=index>=data.commands.length?'从头播放':'播放';
+  }
+  function stop(){playing=false;cancelAnimationFrame(frame)}
+  function changeMode(next){stop();mode=next;document.querySelectorAll('[data-mode]').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.mode===mode)));paint()}
+  function sync(){
+    $('#total').textContent=fmt(data.stats.stitch_count);$('#estimate-meta').textContent=`4 色 · ${data.stats.color_changes} 次换色 · ${data.stats.trims_dst} 次剪线`;
+    $('#current-plan').textContent=`${fmt(data.meta.design_width_mm)} × ${fmt(data.meta.design_height_mm)} mm · ${data.meta.thread_spec} · 间距 ${data.meta.row_spacing_mm} mm`;
+    const base=data.downloadBase||'./';document.querySelectorAll('[data-file]').forEach(a=>{a.href=base+a.dataset.file;a.setAttribute('aria-disabled','false')});$('#readme').href=base+'README.md';
+    $('#colors').replaceChildren();data.meta.colors.forEach((c,i)=>{const b=document.createElement('button');b.className='color-row';b.type='button';b.setAttribute('aria-label',`${c.name}，${data.stats.stitches_by_color[i]}针`);
+      const dot=document.createElement('span');dot.className='swatch';dot.style.background=c.thread.hex;const title=document.createElement('span');title.className='color-title';title.textContent=`${i+1}. ${c.name}`;const small=document.createElement('small');small.textContent=`色号 ${c.thread.code}`;title.append(small);const count=document.createElement('span');count.className='color-count';count.textContent=`${fmt(data.stats.stitches_by_color[i])} 针`;b.append(dot,title,count);b.onclick=()=>{if(mode==='simulation'||mode==='result'){changeMode('simulation');let end=data.commands.findIndex(p=>p[3]>i);index=end<0?data.commands.length:end}else{layer=String(i);$('#layer').value=layer;changeMode('layers')}paint()};$('#colors').append(b)});
+  }
+  function markPending(){busy=true;stop();$('#play').disabled=true;$('#step').disabled=true;$('.stage').setAttribute('aria-busy','true');$('#total').textContent='…';document.querySelectorAll('[data-file]').forEach(a=>a.setAttribute('aria-disabled','true'));$('#retry').hidden=true;status('正在重新排针并计算针数…')}
+  async function replan(){
+    const width=Number($('#width').value),spacing=Number($('#spacing').value),id=++requestId;
+    if(!Number.isFinite(width)||width<25||width>140||!Number.isFinite(spacing)||spacing<.25||spacing>.6){busy=false;$('.stage').setAttribute('aria-busy','false');$('#total').textContent='—';status('请输入25–140 mm宽度、0.25–0.60 mm间距。',true);$('#retry').hidden=false;return}
+    markPending();try{const response=await fetch('/api/plan',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({width,thread,spacing})});const next=await response.json();if(id!==requestId)return;if(!response.ok)throw new Error(next.error||'排针失败');data=next;index=data.commands.length;repaired.src=data.repairedDataUri;sync();paint();status('已按当前参数重新排针');$('#retry').hidden=true;
+    }catch(error){if(id!==requestId)return;$('#total').textContent='—';status(error.message||'本地排针服务暂时不可用。',true);$('#retry').hidden=false;
+    }finally{if(id===requestId){busy=false;$('.stage').setAttribute('aria-busy','false');$('#play').disabled=false;$('#step').disabled=false}}}
+  function schedule(){requestId++;clearTimeout(timer);markPending();timer=setTimeout(replan,350)}
+  $('#width').addEventListener('input',()=>{const w=Number($('#width').value);$('#height').value=(w*ratio).toFixed(1);schedule()});
+  $('#height').addEventListener('input',()=>{const h=Number($('#height').value);$('#width').value=(h/ratio).toFixed(1);schedule()});
+  $('#spacing').addEventListener('change',schedule);$('#retry').onclick=replan;
+  document.querySelectorAll('[data-thread]').forEach(b=>b.onclick=()=>{thread=b.dataset.thread;document.querySelectorAll('[data-thread]').forEach(x=>x.setAttribute('aria-pressed',String(x===b)));$('#spacing').value=thread==='75D'?'0.35':'0.42';schedule()});
+  document.querySelectorAll('[data-mode]').forEach(b=>b.onclick=()=>changeMode(b.dataset.mode));$('#layer').onchange=e=>{layer=e.target.value;paint()};$('#opacity').oninput=()=>{$('#opacity-label').textContent=$('#opacity').value+'%';paint()};
+  function tick(time){if(!playing)return;if(previous)debt+=(time-previous)/1000*Number($('#speed').value);previous=time;const step=Math.floor(debt);if(step){index=Math.min(data.commands.length,index+step);debt-=step;paint()}if(index>=data.commands.length){stop();paint();return}frame=requestAnimationFrame(tick)}
+  $('#play').onclick=()=>{if(busy)return;if(playing){stop();paint();return}if(index>=data.commands.length)index=0;playing=true;previous=0;debt=0;$('#play').textContent='暂停';frame=requestAnimationFrame(tick)};
+  $('#step').onclick=()=>{if(busy)return;stop();if(index>=data.commands.length)index=0;do{index++}while(index<data.commands.length&&data.commands[index-1][2]!==0);paint()};
+  $('#progress').oninput=()=>{stop();index=Number($('#progress').value);paint()};$('#jumps').onchange=paint;
+  document.querySelectorAll('[data-file]').forEach(a=>a.addEventListener('click',e=>{if(a.getAttribute('aria-disabled')==='true')e.preventDefault()}));
+  photo.onload=paint;repaired.onload=paint;$('#height').value=(60*ratio).toFixed(1);sync();paint();status('当前试排已完成');
+})();
+</script></body></html>

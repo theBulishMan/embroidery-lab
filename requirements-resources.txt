@@ -1,0 +1,2 @@
+# Additional dependency for the existing embroidery environment.
+psutil>=6.1,<8

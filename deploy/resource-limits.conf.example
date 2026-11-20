@@ -1,0 +1,19 @@
+# Optional systemd drop-in for a dedicated 2-vCPU / 4-GiB Linux host.
+# Install for the existing service only after confirming its name and host size:
+#   systemctl edit <actual-service-name>
+# CPUQuota=120% means 1.2 cores (60% of a 2-vCPU machine), NOT 120% of the host.
+# This example is not installed automatically and has not been tested on this Mac.
+[Service]
+CPUAccounting=true
+CPUQuota=120%
+CPUQuotaPeriodSec=100ms
+CPUWeight=20
+MemoryAccounting=true
+MemoryHigh=1536M
+MemoryMax=2G
+TasksMax=64
+Nice=10
+KillMode=control-group
+OOMPolicy=stop
+Restart=on-failure
+RestartSec=5s
